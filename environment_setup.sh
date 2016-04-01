@@ -227,6 +227,7 @@ LogFormat "%V %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" comb
 
   VirtualDocumentRoot ${USERHOME}/Sites/%-2+
 
+  # TODO: Doesn't work for D8 https yet
   RewriteEngine on
   RewriteCond %{HTTP_HOST} ^(.*)\.dev$ [NC]
   RewriteCond ${USERHOME}/Sites/%1/(web|www|public|web_root|public_html|doc_root) -d
