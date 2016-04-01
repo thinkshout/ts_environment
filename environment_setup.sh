@@ -211,6 +211,11 @@ LogFormat "%V %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" comb
   ErrorLog "${USERHOME}/Sites/logs/dev-error_log"
 
   VirtualDocumentRoot ${USERHOME}/Sites/%-2+
+
+  RewriteEngine on
+  RewriteCond %{HTTP_HOST} ^(.*)\.dev$ [NC]
+  RewriteCond ${USERHOME}/Sites/%1/(web|www|public|web_root|public_html|doc_root) -d
+  RewriteRule (.*) http://localhost/%1/%2$1 [P,L]
 </VirtualHost>
 <VirtualHost *:8443>
   ServerName dev
@@ -221,28 +226,14 @@ LogFormat "%V %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" comb
   ErrorLog "${USERHOME}/Sites/logs/dev-error_log"
 
   VirtualDocumentRoot ${USERHOME}/Sites/%-2+
+
+  RewriteEngine on
+  RewriteCond %{HTTP_HOST} ^(.*)\.dev$ [NC]
+  RewriteCond ${USERHOME}/Sites/%1/(web|www|public|web_root|public_html|doc_root) -d
+  RewriteRule (.*) https://localhost/%1/%2$1 [P,L]
 </VirtualHost>
 
-# Auto-VirtualHosts with .dv8, using /web subdirectory
-<VirtualHost *:8080>
-  ServerName dv8
-  ServerAlias *.dv8
 
-  CustomLog "${USERHOME}/Sites/logs/dev-access_log" combinedmassvhost
-  ErrorLog "${USERHOME}/Sites/logs/dev-error_log"
-
-  VirtualDocumentRoot ${USERHOME}/Sites/%-2+/web
-</VirtualHost>
-<VirtualHost *:8443>
-  ServerName dv8
-  ServerAlias *.dv8
-  Include "${USERHOME}/Sites/ssl/ssl-shared-cert.inc"
-
-  CustomLog "${USERHOME}/Sites/logs/dev-access_log" combinedmassvhost
-  ErrorLog "${USERHOME}/Sites/logs/dev-error_log"
-
-  VirtualDocumentRoot ${USERHOME}/Sites/%-2+/web
-</VirtualHost>
 EOF
 )
 
