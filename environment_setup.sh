@@ -222,6 +222,27 @@ LogFormat "%V %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" comb
 
   VirtualDocumentRoot ${USERHOME}/Sites/%-2+
 </VirtualHost>
+
+# Auto-VirtualHosts with .dv8, using /web subdirectory
+<VirtualHost *:8080>
+  ServerName dv8
+  ServerAlias *.dv8
+
+  CustomLog "${USERHOME}/Sites/logs/dev-access_log" combinedmassvhost
+  ErrorLog "${USERHOME}/Sites/logs/dev-error_log"
+
+  VirtualDocumentRoot ${USERHOME}/Sites/%-2+/web
+</VirtualHost>
+<VirtualHost *:8443>
+  ServerName dv8
+  ServerAlias *.dv8
+  Include "${USERHOME}/Sites/ssl/ssl-shared-cert.inc"
+
+  CustomLog "${USERHOME}/Sites/logs/dev-access_log" combinedmassvhost
+  ErrorLog "${USERHOME}/Sites/logs/dev-error_log"
+
+  VirtualDocumentRoot ${USERHOME}/Sites/%-2+/web
+</VirtualHost>
 EOF
 )
 
@@ -329,6 +350,7 @@ if [ "$installed" == "" ] ; then
   brew install dnsmasq
 
   echo 'address=/.dev/127.0.0.1' > $(brew --prefix)/etc/dnsmasq.conf
+  echo 'address=/.dv8/127.0.0.1' > $(brew --prefix)/etc/dnsmasq.conf
   echo 'listen-address=127.0.0.1' >> $(brew --prefix)/etc/dnsmasq.conf
   echo 'port=35353' >> $(brew --prefix)/etc/dnsmasq.conf
 
@@ -337,6 +359,8 @@ if [ "$installed" == "" ] ; then
   sudo mkdir -v /etc/resolver
   sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/dev'
   sudo bash -c 'echo "port 35353" >> /etc/resolver/dev'
+  sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/dv8'
+  sudo bash -c 'echo "port 35353" >> /etc/resolver/dv8'
 fi
 
 installed=`brew ls --versions drush`
