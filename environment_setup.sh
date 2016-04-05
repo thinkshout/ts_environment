@@ -421,15 +421,16 @@ if [ "$installed" == "" ] ; then
   echo $'\n'
 
   ~/.rbenv/shims/gem install bundler
-  echo $'\n'
-  echo "Starting services"
-  echo $'\n'
-
-  launchctl load -Fw ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
-  launchctl load -Fw ~/Library/LaunchAgents/homebrew.mxcl.httpd22.plist
-  sudo launchctl load -Fw /Library/LaunchDaemons/co.echo.httpdfwd.plist
-  launchctl load -Fw ~/Library/LaunchAgents/homebrew.mxcl.dnsmasq.plist
 fi
+
+echo $'\n'
+echo "Starting services"
+echo $'\n'
+
+launchctl load -Fw ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
+launchctl load -Fw ~/Library/LaunchAgents/homebrew.mxcl.httpd22.plist
+sudo launchctl load -Fw /Library/LaunchDaemons/co.echo.httpdfwd.plist
+launchctl load -Fw ~/Library/LaunchAgents/homebrew.mxcl.dnsmasq.plist
 
 installed=`which npm`
 if [ "$installed" == "" ] ; then
