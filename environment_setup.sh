@@ -348,6 +348,15 @@ if [ "$installed" == "" ] ; then
   brew install drush
 fi
 
+installed=`brew ls --versions drupalconsole`
+if [ "$installed" == "" ] ; then
+  echo $'\n'
+  echo "Installing Drupal Console"
+  echo $'\n'
+
+  brew install drupalconsole
+fi
+
 installed=`brew ls --versions composer`
 if [ "$installed" == "" ] ; then
   echo $'\n'
