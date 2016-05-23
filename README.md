@@ -8,8 +8,9 @@ Sets you up with a server environment on a Mac for Drupal development. If you ne
  - [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?ls=1&mt=12)
  - Xcode command line tools: `xcode-select --install`
 
-Save a copy to your home folder and run ./environment_setup.sh.
-
+```
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/thinkshout/ts_environment/master/environment_setup.sh)"
+```
 
 Caveats:
 
