@@ -134,7 +134,13 @@ if [ "$installed" == "" ] ; then
 
     brew install homebrew/apache/httpd24 --with-brewed-openssl --with-mpm-event
     brew install homebrew/apache/mod_fastcgi --with-homebrew-httpd24
+
     sed -i '' '/fastcgi_module/d' $(brew --prefix)/etc/apache2/2.4/httpd.conf
+
+    sed -i '' 's/^#[[:space:]]*\(LoadModule\ ssl_module\)/\1/' $(brew --prefix)/etc/apache2/2.4/httpd.conf
+    sed -i '' 's/^#[[:space:]]*\(LoadModule\ vhost_alias_module\)/\1/' $(brew --prefix)/etc/apache2/2.4/httpd.conf
+    sed -i '' 's/^#[[:space:]]*\(LoadModule\ actions_module\)/\1/' $(brew --prefix)/etc/apache2/2.4/httpd.conf
+    sed -i '' 's/^#[[:space:]]*\(LoadModule\ rewrite_module\)/\1/' $(brew --prefix)/etc/apache2/2.4/httpd.conf
 
     [ ! -d ~/Sites ] && mkdir -pv ~/Sites
 
@@ -188,12 +194,6 @@ EOF
 
 #Listen 8080  # defined in main httpd.conf
 Listen 8443
-
-#
-# Use name-based virtual hosting.
-#
-NameVirtualHost *:8080
-NameVirtualHost *:8443
 
 #
 # Set up permissions for VirtualHosts in ~/Sites
