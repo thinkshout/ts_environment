@@ -128,8 +128,12 @@ if [ "$installed" == "" ] ; then
 
     sudo launchctl unload /System/Library/LaunchDaemons/org.apache.httpd.plist 2>/dev/null
 
+    brew install apr
+    #Hack around httpd formula bug with brewed apr
+    ln -s /usr/local/Cellar/apr/1.5.2_1/ /usr/local/Cellar/apr/1.5.2
+
     brew install homebrew/apache/httpd24 --with-brewed-openssl --with-mpm-event
-    brew install homebrew/apache/mod_fastcgi --with-brewed-httpd24
+    brew install homebrew/apache/mod_fastcgi --with-homebrew-httpd24
     sed -i '' '/fastcgi_module/d' $(brew --prefix)/etc/apache2/2.4/httpd.conf
 
     [ ! -d ~/Sites ] && mkdir -pv ~/Sites
