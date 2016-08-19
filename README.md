@@ -19,6 +19,11 @@ brew update
 brew upgrade
 ```
 
+To enable PHP70 instead of PHP56, run the PHP7_upgrade.sh script then to turn it on and off do the following
+```
+brew services stop php70 && brew unlink php70 && brew link php56 && brew services start php56 && apachectl -k restart
+```
+
 Caveats:
 
 -> After you set up, when you brew update, be very sure you know what Homebrew is telling you when it makes "helpful" suggestions.

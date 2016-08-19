@@ -55,28 +55,10 @@ xdebug.default_enable=1
 xdebug.remote_enable=1
 xdebug.remote_handler=dbgp
 xdebug.remote_host=localhost
-xdebug.remote_port=9000
+xdebug.remote_port=9001
 xdebug.remote_autostart=1
 ; Needed for Drupal 8
 xdebug.max_nesting_level = 256
 EOF
-
-# Get location of apache httpd.conf file.
-apacheConf=`httpd -V | grep -i server_config_file | cut -d '"' -f 2`
-# Get location of libphp7.so file.
-php7exe=`find $(brew --prefix)/Cellar/php${newVersion} -name libphp${shortNew}.so`
-
-printf "Adding php${shortNew} LoadModule and FilesMatch settings to httpd.conf...\nThe LoadModule line ensures your browser will run php${shortNew}.\nThe FilesMatch setting will ensure files with the .php extension are parsed as PHP by the apache module.\n"
-cat >> $apacheConf <<EOF
-
-LoadModule php${shortNew}_module $php7exe
-<FilesMatch \.php$>
-    SetHandler application/x-httpd-php
-</FilesMatch>
-EOF
-
-echo "Updating active LoadModule setting in httpd.conf to be php${shortNew}...\n"
-sed -i -e "/LoadModule php${shortOld}_module/s/^#*/#/" $apacheConf
-sed -i -e "/LoadModule php${shortNew}_module/s/^#//" $apacheConf
 
 echo "DONE!!! You're upgraded to php70!"
