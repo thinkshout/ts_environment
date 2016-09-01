@@ -19,8 +19,8 @@ echo ""
 echo "Sets up the standard ThinkShout development environment."
 echo ""
 echo "There's no UNDO for this script, so please double check the prereqs now:"
-echo "- Required: OSX 10.10 Yosemite"
-echo "- Required: Xcode with Command Line Tools (xcode-select --install)"
+echo "- Required: OSX 10.10 Yosemite or higher"
+echo "- Required: An active internet connection"
 echo ""
 
 if ! confirmupdate "Would you like to proceed?"; then
@@ -41,7 +41,7 @@ if [ "$brew_installed" == "" ] ; then
   echo $'\n'
   echo "Installing Homebrew."
   echo $'\n'
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 else
   echo "Updating Homebrew"
   echo $'\n'
@@ -60,15 +60,11 @@ if [ "$brew_result" != "Your system is ready to brew." ]; then
       exit
   fi
 fi
-installed=`brew tap | grep dupes`
-if [ "$installed" == "" ] ; then
-brew tap homebrew/dupes
-fi
 
-installed=`brew tap | grep php`
-if [ "$installed" == "" ] ; then
+brew tap homebrew/dupes
 brew tap homebrew/homebrew-php
-fi
+brew tap homebrew/versions
+brew tap homebrew/services
 
 installed=`brew ls --versions git`
 if [ "$installed" == "" ] ; then
@@ -77,6 +73,15 @@ if [ "$installed" == "" ] ; then
   echo $'\n'
 
   brew install git
+fi
+
+installed=`which hub`
+if [ "$installed" == "" ] ; then
+  echo $'\n'
+  echo "Installing Hub"
+  echo $'\n'
+
+  brew install hub
 fi
 
 installed=`brew ls --versions wget`
@@ -100,7 +105,7 @@ if [ "$installed" == "" ] ; then
 
     cp -v $(brew --prefix mysql)/support-files/my-default.cnf $(brew --prefix)/etc/my.cnf
 
-      cat >> $(brew --prefix)/etc/my.cnf <<'EOF'
+    cat >> $(brew --prefix)/etc/my.cnf <<'EOF'
 
 # Echo & Co. changes
 max_allowed_packet = 1073741824
@@ -108,44 +113,87 @@ innodb_file_per_table = 1
 EOF
 
     sed -i '' 's/^#[[:space:]]*\(innodb_buffer_pool_size\)/\1/' $(brew --prefix)/etc/my.cnf
-    [[ ! -d ~/Library/LaunchAgents ]] && mkdir -v ~/Library/LaunchAgents
-    ln -sfv $(brew --prefix mysql)/homebrew.mxcl.mysql.plist ~/Library/LaunchAgents/
+
+    brew services start mysql
   fi
 fi
 
 installed=`brew ls --versions httpd22`
 if [ "$installed" == "" ] ; then
-  echo $'\n'
-  echo "Installing Apache"
-  echo $'\n'
+  installed=`brew ls --versions httpd24`
+  if [ "$installed" == "" ] ; then
+    echo $'\n'
+    echo "Installing Apache"
+    echo $'\n'
 
-  sudo launchctl unload /System/Library/LaunchDaemons/org.apache.httpd.plist 2>/dev/null
+    sudo launchctl unload /System/Library/LaunchDaemons/org.apache.httpd.plist 2>/dev/null
 
-  brew install homebrew/apache/httpd22 --with-brewed-openssl
+    brew install apr
+    #Hack around httpd formula bug with brewed apr
+    ln -s /usr/local/Cellar/apr/1.5.2_1/ /usr/local/Cellar/apr/1.5.2
 
-  [ ! -d ~/Sites ] && mkdir -pv ~/Sites
+    brew install homebrew/apache/httpd24 --with-brewed-openssl --with-mpm-event
+    brew install homebrew/apache/mod_fastcgi --with-homebrew-httpd24
 
-  mkdir -pv ~/Sites/{logs,ssl}
+    sed -i '' '/fastcgi_module/d' $(brew --prefix)/etc/apache2/2.4/httpd.conf
 
-  touch ~/Sites/httpd-vhosts.conf
+    sed -i '' 's/^#[[:space:]]*\(LoadModule\ ssl_module\)/\1/' $(brew --prefix)/etc/apache2/2.4/httpd.conf
+    sed -i '' 's/^#[[:space:]]*\(LoadModule\ vhost_alias_module\)/\1/' $(brew --prefix)/etc/apache2/2.4/httpd.conf
+    sed -i '' 's/^#[[:space:]]*\(LoadModule\ actions_module\)/\1/' $(brew --prefix)/etc/apache2/2.4/httpd.conf
+    sed -i '' 's/^#[[:space:]]*\(LoadModule\ rewrite_module\)/\1/' $(brew --prefix)/etc/apache2/2.4/httpd.conf
 
-  USERHOME=$(dscl . -read /Users/`whoami` NFSHomeDirectory | awk -F": " '{print $2}') cat >> $(brew --prefix)/etc/apache2/2.2/httpd.conf <<EOF
+    [ ! -d ~/Sites ] && mkdir -pv ~/Sites
+
+    mkdir -pv ~/Sites/{logs,ssl}
+
+    touch ~/Sites/httpd-vhosts.conf
+
+    (export USERHOME=$(dscl . -read /Users/`whoami` NFSHomeDirectory | awk -F"\: " '{print $2}') ; export MODFASTCGIPREFIX=$(brew --prefix mod_fastcgi) ; cat >> $(brew --prefix)/etc/apache2/2.4/httpd.conf <<EOF
+ 
+# Echo & Co. changes
+ 
+# Load PHP-FPM via mod_fastcgi
+LoadModule fastcgi_module    ${MODFASTCGIPREFIX}/libexec/mod_fastcgi.so
+ 
+<IfModule fastcgi_module>
+  FastCgiConfig -maxClassProcesses 1 -idle-timeout 1500
+ 
+  # Prevent accessing FastCGI alias paths directly
+  <LocationMatch "^/fastcgi">
+    <IfModule mod_authz_core.c>
+      Require env REDIRECT_STATUS
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+      Order Deny,Allow
+      Deny from All
+      Allow from env=REDIRECT_STATUS
+    </IfModule>
+  </LocationMatch>
+ 
+  FastCgiExternalServer /php-fpm -host 127.0.0.1:9000 -pass-header Authorization -idle-timeout 1500
+  ScriptAlias /fastcgiphp /php-fpm
+  Action php-fastcgi /fastcgiphp
+ 
+  # Send PHP extensions to PHP-FPM
+  AddHandler php-fastcgi .php
+ 
+  # PHP options
+  AddType text/html .php
+  AddType application/x-httpd-php .php
+  DirectoryIndex index.php index.html
+</IfModule>
+ 
 # Include our VirtualHosts
 Include ${USERHOME}/Sites/httpd-vhosts.conf
 EOF
+    )
 
-(export USERHOME=$(dscl . -read /Users/`whoami` NFSHomeDirectory | awk -F"\: " '{print $2}') ; cat > ~/Sites/httpd-vhosts.conf <<EOF
+    (export USERHOME=$(dscl . -read /Users/`whoami` NFSHomeDirectory | awk -F"\: " '{print $2}') ; cat > ~/Sites/httpd-vhosts.conf <<EOF
 #
 # Listening ports.
-#
+
 #Listen 8080  # defined in main httpd.conf
 Listen 8443
-
-#
-# Use name-based virtual hosting.
-#
-NameVirtualHost *:8080
-NameVirtualHost *:8443
 
 #
 # Set up permissions for VirtualHosts in ~/Sites
@@ -223,30 +271,30 @@ LogFormat "%V %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" comb
   VirtualDocumentRoot ${USERHOME}/Sites/%-2+
 </VirtualHost>
 EOF
-)
+    )
 
-(export USERHOME=$(dscl . -read /Users/`whoami` NFSHomeDirectory | awk -F"\: " '{print $2}') ; cat > ~/Sites/ssl/ssl-shared-cert.inc <<EOF
+    (export USERHOME=$(dscl . -read /Users/`whoami` NFSHomeDirectory | awk -F"\: " '{print $2}') ; cat > ~/Sites/ssl/ssl-shared-cert.inc <<EOF
 SSLEngine On
 SSLProtocol all -SSLv2 -SSLv3
 SSLCipherSuite ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM:+LOW
 SSLCertificateFile "${USERHOME}/Sites/ssl/selfsigned.crt"
 SSLCertificateKeyFile "${USERHOME}/Sites/ssl/private.key"
 EOF
-)
+    )
 
-openssl req \
-  -new \
-  -newkey rsa:2048 \
-  -days 3650 \
-  -nodes \
-  -x509 \
-  -subj "/C=US/ST=State/L=City/O=Organization/OU=$(whoami)/CN=*.dev" \
-  -keyout ~/Sites/ssl/private.key \
-  -out ~/Sites/ssl/selfsigned.crt
+    openssl req \
+      -new \
+      -newkey rsa:2048 \
+      -days 3650 \
+      -nodes \
+      -x509 \
+      -subj "/C=US/ST=State/L=City/O=Organization/OU=$(whoami)/CN=*.dev" \
+      -keyout ~/Sites/ssl/private.key \
+      -out ~/Sites/ssl/selfsigned.crt
 
-ln -sfv $(brew --prefix httpd22)/homebrew.mxcl.httpd22.plist ~/Library/LaunchAgents
+    brew services start httpd24
 
-sudo bash -c 'export TAB=$'"'"'\t'"'"'
+    sudo bash -c 'export TAB=$'"'"'\t'"'"'
 cat > /Library/LaunchDaemons/co.echo.httpdfwd.plist <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -267,57 +315,36 @@ ${TAB}<string>root</string>
 </dict>
 </plist>
 EOF'
-fi
 
-installed=`brew ls --versions php55`
-if [ "$installed" == "" ] ; then
-  installed=`brew ls --versions php56`
-  if [ "$installed" == "" ] ; then
-    installed=`brew ls --versions php70`
-    if [ "$installed" == "" ] ; then
-      echo $'\n'
-      echo "Installing PHP"
-      echo $'\n'
-
-      brew install php55 --with-homebrew-apxs --with-apache
-
-      cat >> $(brew --prefix)/etc/apache2/2.2/httpd.conf <<EOF
-# Send PHP extensions to mod_php
-AddHandler php5-script .php
-AddType text/html .php
-DirectoryIndex index.php index.html
-EOF
-
-      sed -i '-default' "s|^;\(date\.timezone[[:space:]]*=\).*|\1 \"$(sudo systemsetup -gettimezone|awk -F": " '{print $2}')\"|; s|^\(memory_limit[[:space:]]*=\).*|\1 256M|; s|^\(post_max_size[[:space:]]*=\).*|\1 200M|; s|^\(upload_max_filesize[[:space:]]*=\).*|\1 100M|; s|^\(default_socket_timeout[[:space:]]*=\).*|\1 600|; s|^\(max_execution_time[[:space:]]*=\).*|\1 300|; s|^\(max_input_time[[:space:]]*=\).*|\1 600|;" $(brew --prefix)/etc/php/5.5/php.ini
-
-       USERHOME=$(dscl . -read /Users/`whoami` NFSHomeDirectory | awk -F": " '{print $2}') cat >> $(brew --prefix)/etc/php/5.5/php.ini <<EOF
-; PHP Error log
-error_log = ${USERHOME}/Sites/logs/php-error_log
-EOF
-
-      touch $(brew --prefix php55)/lib/php/.lock && chmod 0644 $(brew --prefix php55)/lib/php/.lock
-
-      /usr/bin/sed -i '' "s|^\(\;\)\{0,1\}[[:space:]]*\(opcache\.enable[[:space:]]*=[[:space:]]*\)0|\21|; s|^;\(opcache\.memory_consumption[[:space:]]*=[[:space:]]*\)[0-9]*|\1256|;" $(brew --prefix)/etc/php/5.5/php.ini
-    fi
+    sudo launchctl load -Fw /Library/LaunchDaemons/co.echo.httpdfwd.plist
   fi
 fi
 
-installed=`brew tap | grep versions`
-if [ "$installed" == "" ] ; then
-  echo $'\n'
-  echo "Installing Versions"
-  echo $'\n'
-
-  brew tap homebrew/versions
+installed=`brew ls --versions php55`
+if [ "$installed" != "" ] ; then
+  brew unlink php55
 fi
 
-installed=`brew tap | grep services`
+installed=`brew ls --versions php56`
 if [ "$installed" == "" ] ; then
-  echo $'\n'
-  echo "Installing Services"
-  echo $'\n'
+  installed=`brew ls --versions php70`
+  if [ "$installed" == "" ] ; then
+    echo $'\n'
+    echo "Installing PHP"
+    echo $'\n'
 
-  brew tap homebrew/services
+    brew install homebrew/php/php56
+
+    (export USERHOME=$(dscl . -read /Users/`whoami` NFSHomeDirectory | awk -F"\: " '{print $2}') ; sed -i '-default' -e 's|^;\(date\.timezone[[:space:]]*=\).*|\1 \"'$(sudo systemsetup -gettimezone|awk -F"\: " '{print $2}')'\"|; s|^\(memory_limit[[:space:]]*=\).*|\1 512M|; s|^\(post_max_size[[:space:]]*=\).*|\1 200M|; s|^\(upload_max_filesize[[:space:]]*=\).*|\1 100M|; s|^\(default_socket_timeout[[:space:]]*=\).*|\1 600|; s|^\(max_execution_time[[:space:]]*=\).*|\1 300|; s|^\(max_input_time[[:space:]]*=\).*|\1 600|; $a\'$'\n''\'$'\n''; PHP Error log\'$'\n''error_log = '$USERHOME'/Sites/logs/php-error_log'$'\n' $(brew --prefix)/etc/php/5.6/php.ini)
+
+    chmod -R ug+w $(brew --prefix php56)/lib/php
+
+    brew install php56-opcache
+
+    /usr/bin/sed -i '' "s|^\(\;\)\{0,1\}[[:space:]]*\(opcache\.enable[[:space:]]*=[[:space:]]*\)0|\21|; s|^;\(opcache\.memory_consumption[[:space:]]*=[[:space:]]*\)[0-9]*|\1256|;" $(brew --prefix)/etc/php/5.6/php.ini
+
+    brew services start php56
+  fi
 fi
 
 installed=`brew ls --versions dnsmasq`
@@ -332,7 +359,7 @@ if [ "$installed" == "" ] ; then
   echo 'listen-address=127.0.0.1' >> $(brew --prefix)/etc/dnsmasq.conf
   echo 'port=35353' >> $(brew --prefix)/etc/dnsmasq.conf
 
-  ln -sfv $(brew --prefix dnsmasq)/homebrew.mxcl.dnsmasq.plist ~/Library/LaunchAgents
+  brew services start dnsmasq
 
   sudo mkdir -v /etc/resolver
   sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/dev'
@@ -357,6 +384,15 @@ if [ "$installed" == "" ] ; then
   brew install drupalconsole
 fi
 
+installed=`which terminus`
+if [ "$installed" == "" ] ; then
+  echo $'\n'
+  echo "Installing Terminus"
+  echo $'\n'
+
+  brew install terminus
+fi
+
 installed=`brew ls --versions composer`
 if [ "$installed" == "" ] ; then
   echo $'\n'
@@ -367,25 +403,25 @@ if [ "$installed" == "" ] ; then
   echo "export PATH=~/.composer/vendor/bin:$PATH" >> ~/.zshrc
 fi
 
-installed=`brew ls --versions php55-xdebug`
+installed=`brew ls --versions php56-xdebug`
 if [ "$installed" == "" ] ; then
   echo $'\n'
   echo "Installing Xdebug"
   echo $'\n'
 
-  brew install php55-xdebug
+  brew install php56-xdebug
 
   echo $'\n'
-  echo "Adding Xdebug configuration to php.ini (php 5.5)"
+  echo "Adding Xdebug configuration to php.ini (php 5.6)"
   echo $'\n'
 
-  cat >> $(brew --prefix)/etc/php/5.5/php.ini <<EOF
+  cat >> $(brew --prefix)/etc/php/5.6/php.ini <<EOF
 [xdebug]
 xdebug.default_enable=1
 xdebug.remote_enable=1
 xdebug.remote_handler=dbgp
 xdebug.remote_host=localhost
-xdebug.remote_port=9000
+xdebug.remote_port=9001
 xdebug.remote_autostart=1
 ; Needed for Drupal 8
 xdebug.max_nesting_level = 256
@@ -432,15 +468,6 @@ if [ "$installed" == "" ] ; then
   ~/.rbenv/shims/gem install bundler
 fi
 
-echo $'\n'
-echo "Starting services"
-echo $'\n'
-
-launchctl load -Fw ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist
-launchctl load -Fw ~/Library/LaunchAgents/homebrew.mxcl.httpd22.plist
-sudo launchctl load -Fw /Library/LaunchDaemons/co.echo.httpdfwd.plist
-launchctl load -Fw ~/Library/LaunchAgents/homebrew.mxcl.dnsmasq.plist
-
 installed=`which npm`
 if [ "$installed" == "" ] ; then
   echo $'\n'
@@ -479,14 +506,7 @@ if [ "$confirm_cask" == true ] ; then
   echo $'\n'
   echo 'Installing any additional desktop applications...'
 
-  if ! brew info cask &>/dev/null; then
-    echo $'\n'
-    echo 'Installing Cask'
-    echo $'\n'
-
-    brew tap phinze/homebrew-cask
-    brew install brew-cask
-  fi
+  brew tap caskroom/cask
 
   installed=`ls /Applications/ | grep -i Google\ Chrome`
   if [ "$installed" == "" ] ; then
@@ -597,25 +617,7 @@ if [ "$confirm_cask" == true ] ; then
     curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
   fi
 
-  installed=`which hub`
-  if [ "$installed" == "" ] ; then
-    echo $'\n'
-    echo "Installing Hub"
-    echo $'\n'
-
-    brew install hub
-  fi
-
-  installed=`which terminus`
-  if [ "$installed" == "" ] ; then
-    echo $'\n'
-    echo "Installing Terminus"
-    echo $'\n'
-
-    composer global require pantheon-systems/terminus
-  fi
-
-    installed=`which ngrok`
+  installed=`which ngrok`
   if [ "$installed" == "" ] ; then
     echo $'\n'
     echo "Installing ngrok"
@@ -635,6 +637,7 @@ if [ "$confirm_cask" == true ] ; then
     open  /opt/homebrew-cask/Caskroom/adobe-creative-cloud/latest/Creative\ Cloud\ Installer.app
   fi
 fi
+
 echo $'\n'
 echo "Dev environment setup complete"
 echo $'\n'
