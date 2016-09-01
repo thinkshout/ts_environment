@@ -12,6 +12,11 @@ Sets you up with a server environment on a Mac for Drupal development. If you ne
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/thinkshout/ts_environment/master/environment_setup.sh)"
 ```
 
+Install PHP7 if you're working on Drupal 8 projects:
+```
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/thinkshout/ts_environment/master/php7_upgrade.sh)"
+```
+
 Once installed you can upgrade your packages to the current stable versions like so:
 
 ```
@@ -19,9 +24,21 @@ brew update
 brew upgrade
 ```
 
-To enable PHP70 instead of PHP56, run the PHP7_upgrade.sh script then to turn it on and off do the following
+### Switching PHP versions
+
+Apache - 5.6 to 7.0:
 ```
-brew services stop php70 && brew unlink php70 && brew link php56 && brew services start php56 && apachectl -k restart
+brew services stop php56;brew services start php70
+```
+
+Apache - 7.0 to 5.6:
+```
+brew services stop php70;brew services start php56
+```
+
+Switching CLI version of PHP:
+```
+brew unlink php56;brew link php70
 ```
 
 Caveats:
