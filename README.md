@@ -12,6 +12,11 @@ Sets you up with a server environment on a Mac for Drupal development. If you ne
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/thinkshout/ts_environment/master/environment_setup.sh)"
 ```
 
+Install PHP7 if you're working on Drupal 8 projects:
+```
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/thinkshout/ts_environment/master/php7_upgrade.sh)"
+```
+
 Once installed you can upgrade your packages to the current stable versions like so:
 
 ```
