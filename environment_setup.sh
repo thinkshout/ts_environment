@@ -632,7 +632,16 @@ if [ "$confirm_cask" == true ] ; then
     echo "Installing robo"
     echo $'\n'
 
-    brew cask install robo
+    composer global require codegyre/robo
+  fi
+  
+  installed=`which wp`
+  if [ "$installed" == "" ] ; then
+    echo $'\n'
+    echo "Installing wp-cli"
+    echo $'\n'
+
+    brew install homebrew/php/wp-cli
   fi
 
   installed=`ls /Applications/ | grep -i 'Adobe Creative Cloud'`
