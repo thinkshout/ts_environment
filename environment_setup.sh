@@ -625,6 +625,15 @@ if [ "$confirm_cask" == true ] ; then
 
     brew cask install ngrok
   fi
+  
+  installed=`which robo`
+  if [ "$installed" == "" ] ; then
+    echo $'\n'
+    echo "Installing robo"
+    echo $'\n'
+
+    brew cask install robo
+  fi
 
   installed=`ls /Applications/ | grep -i 'Adobe Creative Cloud'`
   if [ "$installed" == "" ] ; then
