@@ -50,8 +50,10 @@ echo "Downloading Homebrew standard bundle."
 if [ ! -d ~/ts_environment ] ; then
   git clone https://github.com/thinkshout/ts_environment.git && cd ts_environment && git checkout may2017
 else
-  cd ts_environment; git pull; cd ~
+  cd ts_environment; git checkout may2017 && git pull
 fi
+
+cd ~
 
 if confirmupdate "Would you like to proceed?"; then
   echo "Starting setup..."
@@ -173,60 +175,61 @@ if [ "$confirm_dev" == true ] ; then
   fi
   rbenv install 2.2.2
   rbenv global 2.2.2
+
+  installed=`which bundler`
+  if [ "$installed" == "" ] ; then
+    echo $'\n'
+    echo "Installing Bundler"
+    echo $'\n'
+
+    ~/.rbenv/shims/gem install bundler
+  fi
+
+  installed=`which grunt`
+  if [ "$installed" == "" ] ; then
+    echo $'\n'
+    echo 'Installing Grunt'
+    echo $'\n'
+    npm install -g grunt-cli
+  fi
+
+  installed=`which gulp`
+  if [ "$installed" == "" ] ; then
+    echo $'\n'
+    echo 'Installing gulp'
+    echo $'\n'
+    npm install --global gulp-cli
+  fi
+
+  installed=`which compass`
+  if [ "$installed" == "" ] ; then
+    echo $'\n'
+    echo 'Installing Compass'
+    echo $'\n'
+
+    ~/.rbenv/shims/gem install compass
+  fi
+
+  installed=`ls ~/.oh-my-zsh | grep -i 'oh-my-zsh'`
+  if [ "$installed" == "" ] ; then
+    echo $'\n'
+    echo ' Installing Oh My ZSH'
+    echo $'\n'
+
+    curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+  fi
+
+  echo $'\n'
+  echo "Installing global composer packages (prestissimo, cgr)"
+  echo $'\n'
+
+  composer global require -n "hirak/prestissimo:^0.3"
+  composer global require -n "consolidation/cgr"
+
+  echo $'\n'
+  echo "Dev environment setup complete"
+  echo $'\n'
+
 fi
-
-installed=`which bundler`
-if [ "$installed" == "" ] ; then
-  echo $'\n'
-  echo "Installing Bundler"
-  echo $'\n'
-
-  ~/.rbenv/shims/gem install bundler
-fi
-
-installed=`which grunt`
-if [ "$installed" == "" ] ; then
-  echo $'\n'
-  echo 'Installing Grunt'
-  echo $'\n'
-  npm install -g grunt-cli
-fi
-
-installed=`which gulp`
-if [ "$installed" == "" ] ; then
-  echo $'\n'
-  echo 'Installing gulp'
-  echo $'\n'
-  npm install --global gulp-cli
-fi
-
-installed=`which compass`
-if [ "$installed" == "" ] ; then
-  echo $'\n'
-  echo 'Installing Compass'
-  echo $'\n'
-
-  ~/.rbenv/shims/gem install compass
-fi
-
-installed=`ls ~/.oh-my-zsh | grep -i 'oh-my-zsh'`
-if [ "$installed" == "" ] ; then
-  echo $'\n'
-  echo ' Installing Oh My ZSH'
-  echo $'\n'
-
-  curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-fi
-
-echo $'\n'
-echo "Installing global composer packages (prestissimo, cgr)"
-echo $'\n'
-
-composer global require -n "hirak/prestissimo:^0.3"
-composer global require -n "consolidation/cgr"
-
-echo $'\n'
-echo "Dev environment setup complete"
-echo $'\n'
 
 exit
