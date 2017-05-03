@@ -47,22 +47,20 @@ if [ "$brew_installed" == "" ] ; then
 fi
 
 echo "Downloading Homebrew standard bundle."
-[ ! -d ~/env ] && mkdir -pv ~/env
-curl https://raw.githubusercontent.com/thinkshout/ts_environment/may2017/Brewfile > ~/env/Brewfile
+if [ ! -d ~/ts_environment ] ; then
+  git clone https://github.com/thinkshout/ts_environment.git && git checkout may2017
+else
+  cd ts_environment; git pull; cd ~
+fi
 
 if confirmupdate "Would you like to proceed?"; then
-    echo "Starting setup..."
-  else
-    exit
+  echo "Starting setup..."
+else
+  exit
 fi
 
 # Install everything in the Brewfile
-brew bundle --file=~/env/Brewfile
-
-# Replace single Brewfile with checkout of ts_environment for future updates.
-git clone https://github.com/thinkshout/ts_environment.git
-# Temporarily checkout our branch
-git checkout may2017
+brew bundle --file=~/ts_environment/Brewfile
 
 if [ "$confirm_dev" == true ] ; then
   echo $'\n'
