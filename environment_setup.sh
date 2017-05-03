@@ -86,11 +86,15 @@ if [ "$confirm_dev" == true ] ; then
 
   touch ~/Sites/httpd-vhosts.conf
 
-  (export USERHOME=$(dscl . -read /Users/`whoami` NFSHomeDirectory | awk -F"\: " '{print $2}') ; export MODFASTCGIPREFIX=$(brew --prefix mod_fastcgi) ; cat >> $(brew --prefix)/etc/apache2/2.4/httpd.conf << ~/ts_environment/config/httpd.conf)
+  export USERHOME=$(dscl . -read /Users/`whoami` NFSHomeDirectory | awk -F"\: " '{print $2}')
 
-  (export USERHOME=$(dscl . -read /Users/`whoami` NFSHomeDirectory | awk -F"\: " '{print $2}') ; cat > ~/Sites/httpd-vhosts.conf << ~/ts_environment/httpd-vhosts.conf)
+  export MODFASTCGIPREFIX=$(brew --prefix mod_fastcgi)
 
-  (export USERHOME=$(dscl . -read /Users/`whoami` NFSHomeDirectory | awk -F"\: " '{print $2}') ; cat > ~/Sites/ssl/ssl-shared-cert.inc << ~/ts_environment/ssl-shared-cert.inc)
+  cat >> $(brew --prefix)/etc/apache2/2.4/httpd.conf < ~/ts_environment/config/httpd.conf
+
+  cat > ~/Sites/httpd-vhosts.conf < ~/ts_environment/httpd-vhosts.conf
+
+  cat > ~/Sites/ssl/ssl-shared-cert.inc < ~/ts_environment/ssl-shared-cert.inc
 
   openssl req \
     -new \
@@ -106,10 +110,6 @@ if [ "$confirm_dev" == true ] ; then
 
   sudo cp ~/ts_environment/config/co.echo.httpdfwd.plist /Library/LaunchDaemons/
   sudo launchctl load -Fw /Library/LaunchDaemons/co.echo.httpdfwd.plist
-
-  echo $'\n'
-  echo "Configuring PHP 7.0"
-  echo $'\n'
 
   echo $'\n'
   echo "Installing alternate PHP versions (5.6, 7.1)"
@@ -138,7 +138,7 @@ if [ "$confirm_dev" == true ] ; then
 
   for VER in 5.6 7.0 7.1
   do
-    (export USERHOME=$(dscl . -read /Users/`whoami` NFSHomeDirectory | awk -F"\: " '{print $2}') ; cat > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini << ~/ts_environment/php-ts.ini)
+    cat > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini < ~/ts_environment/php-ts.ini)
     chmod -R ug+w $(brew --prefix $VER)/lib/php
   done
 
