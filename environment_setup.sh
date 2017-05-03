@@ -46,7 +46,7 @@ fi
 
 echo "Downloading Homebrew standard bundle."
 [ ! -d ~/env ] && mkdir -pv ~/env
-curl https://raw.githubusercontent.com/ts_environment/may2017/Brewfile > ~/env/Brewfile
+curl https://raw.githubusercontent.com/thinkshout/ts_environment/may2017/Brewfile > ~/env/Brewfile
 
 if confirmupdate "Would you like to proceed?"; then
     echo "Starting setup..."
@@ -139,7 +139,7 @@ if [ "$confirm_dev" == true ] ; then
     (export USERHOME=$(dscl . -read /Users/`whoami` NFSHomeDirectory | awk -F"\: " '{print $2}') ; cat > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini << ~/ts_environment/php-ts.ini)
     chmod -R ug+w $(brew --prefix $VER)/lib/php
   done
-    
+
 
   echo $'\n'
   echo "Configuring Dnsmasq"
