@@ -138,7 +138,7 @@ if [ "$confirm_dev" == true ] ; then
 
   for VER in 5.6 7.0 7.1
   do
-    cat > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini < ~/ts_environment/php-ts.ini)
+    cat > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini < ~/ts_environment/php-ts.ini
     chmod -R ug+w $(brew --prefix $VER)/lib/php
   done
 
