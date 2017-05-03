@@ -1,8 +1,5 @@
 cask_args appdir: '/Applications'
 
-update
-doctor
-
 brew 'curl'
 brew 'git'
 
