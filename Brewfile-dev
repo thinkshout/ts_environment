@@ -4,6 +4,7 @@ tap 'homebrew/php'
 tap 'caskroom/versions'
 tap 'homebrew/services'
 tap 'homebrew/dupes'
+tap 'homebrew/apache'
 
 brew 'colordiff'
 brew 'coreutils'

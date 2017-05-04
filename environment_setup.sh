@@ -70,6 +70,19 @@ if [ "$confirm_dev" == true ] ; then
 
   brew bundle --file=~/ts_environment/Brewfile-dev
 
+  export PATH=./vendor/bin:~/.composer/vendor/bin:/usr/local/bin:/usr/local/sbin:$PATH
+
+  installed=`ls ~/.oh-my-zsh | grep -i 'oh-my-zsh'`
+  if [ "$installed" == "" ] ; then
+    echo $'\n'
+    echo ' Installing Oh My ZSH'
+    echo $'\n'
+
+    curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+
+    echo "export PATH=./vendor/bin:~/.composer/vendor/bin:/usr/local/bin:/usr/local/sbin:$PATH" >> ~/.zshrc
+  fi
+
   # Configure MariaDB by copying remote config file to local system.
   cp ~/ts_environment/config/ts.cnf $(brew --prefix)/etc/my.cnf.d/ts.cnf
   brew services restart mariadb
@@ -138,7 +151,7 @@ if [ "$confirm_dev" == true ] ; then
 
   for VER in 5.6 7.0 7.1
   do
-    cat > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini < ~/ts_environment/php-ts.ini
+    cat > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini < ~/ts_environment/config/php-ts.ini
     chmod -R ug+w $(brew --prefix php$VER)/lib/php
   done
 
@@ -207,15 +220,6 @@ if [ "$confirm_dev" == true ] ; then
     echo $'\n'
 
     ~/.rbenv/shims/gem install compass
-  fi
-
-  installed=`ls ~/.oh-my-zsh | grep -i 'oh-my-zsh'`
-  if [ "$installed" == "" ] ; then
-    echo $'\n'
-    echo ' Installing Oh My ZSH'
-    echo $'\n'
-
-    curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
   fi
 
   echo $'\n'
