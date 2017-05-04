@@ -71,7 +71,7 @@ if [ "$confirm_dev" == true ] ; then
   brew bundle --file=~/ts_environment/Brewfile-dev
 
   # Configure MariaDB by copying remote config file to local system.
-  cp ~/ts_environment/config/ts.cnf > $(brew --prefix)/etc/my.cnf.d/ts.cnf
+  cp ~/ts_environment/config/ts.cnf $(brew --prefix)/etc/my.cnf.d/ts.cnf
   brew services restart mariadb
 
   echo $'\n'
@@ -117,14 +117,14 @@ if [ "$confirm_dev" == true ] ; then
 
   brew unlink php70
 
-  brew install homebrew/php/php56
+  brew install php56 --without-apache --with-fpm
   brew install php56-opcache
   brew install php56-mcrypt
   brew install php56-xdebug
 
   brew unlink php56
 
-  brew install homebrew/php/php71
+  brew install php71 --without-apache --with-fpm
   brew install php71-opcache
   brew install php71-mcrypt
   brew install php71-xdebug
@@ -139,7 +139,7 @@ if [ "$confirm_dev" == true ] ; then
   for VER in 5.6 7.0 7.1
   do
     cat > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini < ~/ts_environment/php-ts.ini
-    chmod -R ug+w $(brew --prefix $VER)/lib/php
+    chmod -R ug+w $(brew --prefix php$VER)/lib/php
   done
 
 
@@ -156,7 +156,6 @@ if [ "$confirm_dev" == true ] ; then
   sudo mkdir -v /etc/resolver
   sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/dev'
   sudo bash -c 'echo "port 35353" >> /etc/resolver/dev'
-
 
   echo $'\n'
   echo "Configuring Frontend tools: Ruby 2.2 using Rbenv"

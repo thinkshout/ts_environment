@@ -15,13 +15,13 @@ brew 'hub'
 brew 'docker'
 brew 'jq'
 brew 'mariadb', restart_service: true
-brew 'httpd24', args: ['with-brewed-openssl', 'with-mpm-event']
-brew 'mod_fastcgi', args: ['with-homebrew-httpd24']
-brew 'homebrew/php/composer'
-brew 'homebrew/php/php70'
-brew 'homebrew/php/php70-mcrypt'
-brew 'homebrew/php/php70-opcache'
-brew 'homebrew/php/php70-xdebug'
+brew 'homebrew/apache/httpd24', args: ['with-brewed-openssl', 'with-mpm-event']
+brew 'homebrew/apache/mod_fastcgi', args: ['with-homebrew-httpd24']
+brew 'composer'
+brew 'php70', args: ['without-apache', 'with-fpm']
+brew 'php70-mcrypt'
+brew 'php70-opcache'
+brew 'php70-xdebug'
 brew 'rbenv'
 brew 'ruby-build'
 brew 'tree'
