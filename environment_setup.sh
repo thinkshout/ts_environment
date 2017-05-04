@@ -27,12 +27,6 @@ if ! confirmupdate "Would you like to proceed?"; then
   exit
 fi
 
-if confirmupdate "Would you like to install local development programs like PHPStorm, Sequel Pro, PHP, MariaDB, etc?"; then
-  confirm_dev=true;
-else
-  confirm_dev=false;
-fi
-
 echo "Starting setup... which will install your environment or update it."
 
 # Check Homebrew is installed.
@@ -64,7 +58,7 @@ fi
 # Install everything in the Brewfile
 brew bundle --file=~/ts_environment/Brewfile
 
-if [ "$confirm_dev" == true ] ; then
+if confirmupdate "Would you like to install local development programs like PHPStorm, Sequel Pro, PHP, MariaDB, etc?"; then
   echo $'\n'
   echo 'Installing local development environment...'
 
@@ -103,11 +97,11 @@ if [ "$confirm_dev" == true ] ; then
 
   export MODFASTCGIPREFIX=$(brew --prefix mod_fastcgi)
 
-  cat >> $(brew --prefix)/etc/apache2/2.4/httpd.conf < ~/ts_environment/config/httpd.conf
+  $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/config/httpd.conf > $(brew --prefix)/etc/apache2/2.4/httpd.conf
 
-  cat > ~/Sites/httpd-vhosts.conf < ~/ts_environment/httpd-vhosts.conf
+  $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/httpd-vhosts.conf > ~/Sites/httpd-vhosts.conf
 
-  cat > ~/Sites/ssl/ssl-shared-cert.inc < ~/ts_environment/ssl-shared-cert.inc
+  $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/ssl-shared-cert.inc > ~/Sites/ssl/ssl-shared-cert.inc
 
   openssl req \
     -new \
@@ -151,8 +145,7 @@ if [ "$confirm_dev" == true ] ; then
 
   for VER in 5.6 7.0 7.1
   do
-    cat > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini < ~/ts_environment/config/php-ts.ini
-    chmod -R ug+w $(brew --prefix php$VER)/lib/php
+    $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/config/php-ts.ini > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini
   done
 
 

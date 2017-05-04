@@ -38,7 +38,7 @@ brew 'zsh-completions'
 
 
 cask 'atom'
-cask 'dockertoolbox'
+cask 'docker-toolbox'
 cask 'macdown'
 cask 'phpstorm'
 cask 'sequel-pro'
