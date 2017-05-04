@@ -97,7 +97,7 @@ if confirmupdate "Would you like to install local development programs like PHPS
 
   export MODFASTCGIPREFIX=$(brew --prefix mod_fastcgi)
 
-  $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/config/httpd.conf > $(brew --prefix)/etc/apache2/2.4/httpd.conf
+  $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/config/httpd-ts.conf > $(brew --prefix)/etc/apache2/2.4/extra/httpd-ts.conf
 
   $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/config/httpd-vhosts.conf > ~/Sites/httpd-vhosts.conf
 
