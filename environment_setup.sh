@@ -99,9 +99,9 @@ if confirmupdate "Would you like to install local development programs like PHPS
 
   $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/config/httpd.conf > $(brew --prefix)/etc/apache2/2.4/httpd.conf
 
-  $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/httpd-vhosts.conf > ~/Sites/httpd-vhosts.conf
+  $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/config/httpd-vhosts.conf > ~/Sites/httpd-vhosts.conf
 
-  $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/ssl-shared-cert.inc > ~/Sites/ssl/ssl-shared-cert.inc
+  $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/config/ssl-shared-cert.inc > ~/Sites/ssl/ssl-shared-cert.inc
 
   openssl req \
     -new \
