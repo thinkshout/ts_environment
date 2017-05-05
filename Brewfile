@@ -2,6 +2,7 @@ cask_args appdir: '/Applications'
 
 brew 'curl'
 brew 'git'
+brew 'mas'
 
 cask '1password'
 cask 'alfred'
@@ -14,3 +15,8 @@ cask 'iterm2'
 cask 'java'
 cask 'screenhero'
 cask 'slack'
+
+# App store
+mas 'Keynote', id: 409183694
+mas 'Numbers', id: 409203825
+mas 'Pages', id: 409201541
