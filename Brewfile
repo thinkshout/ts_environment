@@ -15,6 +15,7 @@ cask 'iterm2'
 cask 'java'
 cask 'screenhero'
 cask 'slack'
+cask 'zoomus'
 
 # App store
 mas 'Keynote', id: 409183694
