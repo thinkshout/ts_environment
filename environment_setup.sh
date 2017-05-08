@@ -150,6 +150,11 @@ if confirmupdate "Would you like to install local development programs like PHPS
     $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/config/php-ts.ini > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini
   done
 
+  echo $'\n'
+  echo "Starting PHP7 FPM process."
+  echo $'\n'
+  brew services start php70
+
 
   echo $'\n'
   echo "Configuring Dnsmasq"
