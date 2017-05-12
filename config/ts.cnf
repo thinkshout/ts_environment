@@ -1,3 +1,4 @@
+[mysqld]
 max_allowed_packet = 1073741824
 innodb_file_per_table = 1
 innodb_buffer_pool_size = 512M
