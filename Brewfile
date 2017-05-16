@@ -13,7 +13,6 @@ cask 'google-chrome'
 cask 'google-drive'
 cask 'iterm2'
 cask 'java'
-cask 'screenhero'
 cask 'slack'
 cask 'zoomus'
 
