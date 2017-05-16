@@ -1,0 +1,45 @@
+cask_args appdir: '/Applications'
+
+tap 'homebrew/php'
+tap 'caskroom/versions'
+tap 'homebrew/services'
+tap 'homebrew/dupes'
+tap 'homebrew/apache'
+
+brew 'colordiff'
+brew 'coreutils'
+brew 'dnsmasq'
+brew 'drush'
+brew 'drupalconsole'
+brew 'drupal-code-sniffer'
+brew 'hub'
+brew 'docker'
+brew 'jq'
+brew 'mariadb', restart_service: true
+brew 'homebrew/apache/httpd24', args: ['with-brewed-openssl', 'with-mpm-event']
+brew 'homebrew/apache/mod_fastcgi', args: ['with-homebrew-httpd24']
+brew 'composer'
+brew 'php70', args: ['without-apache', 'with-fpm']
+brew 'php70-mcrypt'
+brew 'php70-opcache'
+brew 'php70-xdebug'
+brew 'rbenv'
+brew 'ruby-build'
+brew 'tree'
+brew 'terminus'
+brew 'npm'
+brew 'yarn'
+brew 'openssl'
+brew 'unrar'
+brew 'wget'
+brew 'xz'
+brew 'zsh'
+brew 'zsh-completions'
+
+
+cask 'atom'
+cask 'docker-toolbox'
+cask 'macdown'
+cask 'phpstorm'
+cask 'sequel-pro'
+cask 'ngrok'
