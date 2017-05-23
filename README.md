@@ -8,7 +8,7 @@ Sets you up with a server environment on a Mac for Drupal development. If you ne
  - Xcode command line tools: `xcode-select --install`
 
 ```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/thinkshout/ts_environment/may2017/environment_setup.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/thinkshout/ts_environment/master/environment_setup.sh)"
 ```
 
 Once installed you can upgrade your packages to the current stable versions like so:
