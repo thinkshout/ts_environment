@@ -81,41 +81,7 @@ if confirmupdate "Would you like to install local development programs like PHPS
   cp ~/ts_environment/config/ts.cnf $(brew --prefix)/etc/my.cnf.d/ts.cnf
   brew services restart mariadb
 
-  echo $'\n'
-  echo "Configuring Apache"
-  echo $'\n'
-
-  sudo launchctl unload /System/Library/LaunchDaemons/org.apache.httpd.plist 2>/dev/null
-
-  [ ! -d ~/Sites ] && mkdir -pv ~/Sites
-
-  mkdir -pv ~/Sites/{logs,ssl}
-
-  touch ~/Sites/httpd-vhosts.conf
-
-  export USERHOME=$(dscl . -read /Users/`whoami` NFSHomeDirectory | awk -F"\: " '{print $2}')
-
-  export MODFASTCGIPREFIX=$(brew --prefix mod_fastcgi)
-
-  $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/config/httpd-ts.conf > $(brew --prefix)/etc/apache2/2.4/extra/httpd-ts.conf
-  # Add directive to include our new config file in httpd.conf
-  echo "Include $(brew --prefix)/etc/apache2/2.4/extra/httpd-ts.conf" >> $(brew --prefix)/etc/apache2/2.4/httpd.conf
-
-  $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/config/httpd-vhosts.conf > ~/Sites/httpd-vhosts.conf
-
-  $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/config/ssl-shared-cert.inc > ~/Sites/ssl/ssl-shared-cert.inc
-
-  openssl req \
-    -new \
-    -newkey rsa:2048 \
-    -days 3650 \
-    -nodes \
-    -x509 \
-    -subj "/C=US/ST=State/L=City/O=Organization/OU=$(whoami)/CN=*.dev" \
-    -keyout ~/Sites/ssl/private.key \
-    -out ~/Sites/ssl/selfsigned.crt
-
-  brew services start httpd24
+  source scripts/nginx.sh
 
   sudo cp ~/ts_environment/config/co.echo.httpdfwd.plist /Library/LaunchDaemons/
   sudo launchctl load -Fw /Library/LaunchDaemons/co.echo.httpdfwd.plist
@@ -126,14 +92,14 @@ if confirmupdate "Would you like to install local development programs like PHPS
 
   brew unlink php70
 
-  brew install php56 --without-apache --with-fpm
+  brew install php56
   brew install php56-opcache
   brew install php56-mcrypt
   brew install php56-xdebug
 
   brew unlink php56
 
-  brew install php71 --without-apache --with-fpm
+  brew install php71
   brew install php71-opcache
   brew install php71-mcrypt
   brew install php71-xdebug
