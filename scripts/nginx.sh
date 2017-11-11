@@ -1,7 +1,7 @@
 #!/bin/bash
 
 installed=`which nginx`
-if [ "x$installed" == "x" ] ; then
+if [ "x$installed" != "x" ] ; then
 	echo $'\n'
 	echo "Configuring nginx"
 	echo $'\n'
