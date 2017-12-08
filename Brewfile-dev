@@ -38,4 +38,5 @@ cask 'macdown'
 cask 'phpstorm'
 cask 'sequel-pro'
 cask 'ngrok'
-
+cask 'postman'
+cask 'imageoptim'
