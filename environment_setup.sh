@@ -126,15 +126,15 @@ if confirmupdate "Would you like to install local development programs like PHPS
   echo "Configuring Dnsmasq"
   echo $'\n'
 
-  echo 'address=/.dev/127.0.0.1' > $(brew --prefix)/etc/dnsmasq.conf
+  echo 'address=/.dv/127.0.0.1' > $(brew --prefix)/etc/dnsmasq.conf
   echo 'listen-address=127.0.0.1' >> $(brew --prefix)/etc/dnsmasq.conf
   echo 'port=35353' >> $(brew --prefix)/etc/dnsmasq.conf
 
   brew services start dnsmasq
 
   sudo mkdir -v /etc/resolver
-  sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/dev'
-  sudo bash -c 'echo "port 35353" >> /etc/resolver/dev'
+  sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/dv'
+  sudo bash -c 'echo "port 35353" >> /etc/resolver/dv'
 
   echo $'\n'
   echo "Configuring Frontend tools: Ruby 2.2 using Rbenv"
