@@ -42,12 +42,10 @@ fi
 
 echo "Downloading Homebrew standard bundle."
 if [ ! -d ~/ts_environment ] ; then
-  git clone https://github.com/thinkshout/ts_environment.git && cd ts_environment && git checkout master
-else
-  cd ts_environment; git checkout master && git pull
+  git clone https://github.com/thinkshout/ts_environment.git ~/ts_environment
 fi
 
-cd ~
+cd ~/ts_environment; git checkout master && git pull
 
 if confirmupdate "Would you like to proceed?"; then
   echo "Starting setup..."
@@ -56,13 +54,13 @@ else
 fi
 
 # Install everything in the Brewfile
-brew bundle --file=~/ts_environment/Brewfile
+brew bundle --file=Brewfile
 
 if confirmupdate "Would you like to install local development programs like PHPStorm, Sequel Pro, PHP, MariaDB, etc?"; then
   echo $'\n'
   echo 'Installing local development environment...'
 
-  brew bundle --file=~/ts_environment/Brewfile-dev
+  brew bundle --file=Brewfile-dev
 
   export PATH=./vendor/bin:~/.composer/vendor/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
@@ -78,12 +76,12 @@ if confirmupdate "Would you like to install local development programs like PHPS
   fi
 
   # Configure MariaDB by copying remote config file to local system.
-  cp ~/ts_environment/config/ts.cnf $(brew --prefix)/etc/my.cnf.d/ts.cnf
+  cp config/ts.cnf $(brew --prefix)/etc/my.cnf.d/ts.cnf
   brew services restart mariadb
 
   source scripts/nginx.sh
 
-  sudo cp ~/ts_environment/config/co.echo.httpdfwd.plist /Library/LaunchDaemons/
+  sudo cp config/co.echo.httpdfwd.plist /Library/LaunchDaemons/
   sudo launchctl load -Fw /Library/LaunchDaemons/co.echo.httpdfwd.plist
 
   echo $'\n'
@@ -113,7 +111,7 @@ if confirmupdate "Would you like to install local development programs like PHPS
 
   for VER in 5.6 7.0 7.1
   do
-    $(brew --prefix gettext)/bin/envsubst < ~/ts_environment/config/php-ts.ini > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini
+    $(brew --prefix gettext)/bin/envsubst < config/php-ts.ini > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini
   done
 
   echo $'\n'
