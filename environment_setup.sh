@@ -94,6 +94,7 @@ if confirmupdate "Would you like to install local development programs like PHPS
   brew install php56-opcache
   brew install php56-mcrypt
   brew install php56-xdebug
+  brew install php56-redis
 
   brew unlink php56
 
@@ -101,6 +102,7 @@ if confirmupdate "Would you like to install local development programs like PHPS
   brew install php71-opcache
   brew install php71-mcrypt
   brew install php71-xdebug
+  brew install php71-redis
 
   brew unlink php71
   brew link php70

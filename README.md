@@ -20,12 +20,12 @@ brew upgrade
 
 ### Switching PHP versions
 
-Apache - 5.6 to 7.0:
+PHP - 5.6 to 7.0:
 ```
 brew services stop php56;brew services start php70
 ```
 
-Apache - 7.0 to 5.6:
+PHP - 7.0 to 5.6:
 ```
 brew services stop php70;brew services start php56
 ```
