@@ -88,9 +88,10 @@ if confirmupdate "Would you like to install local development programs like PHPS
   echo "Installing alternate PHP versions (5.6, 7.1)"
   echo $'\n'
 
-  brew unlink php70
+  brew unlink php72
 
   brew install php56
+  brew link php56
   brew install php56-opcache
   brew install php56-mcrypt
   brew install php56-xdebug
@@ -99,19 +100,20 @@ if confirmupdate "Would you like to install local development programs like PHPS
   brew unlink php56
 
   brew install php71
+  brew link php71
   brew install php71-opcache
   brew install php71-mcrypt
   brew install php71-xdebug
   brew install php71-redis
 
   brew unlink php71
-  brew link php70
+  brew link php72
 
   echo $'\n'
   echo "Configuring PHP"
   echo $'\n'
 
-  for VER in 5.6 7.0 7.1
+  for VER in 5.6 7.1 7.2
   do
     $(brew --prefix gettext)/bin/envsubst < config/php-ts.ini > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini
   done
@@ -119,7 +121,7 @@ if confirmupdate "Would you like to install local development programs like PHPS
   echo $'\n'
   echo "Starting PHP7 FPM process."
   echo $'\n'
-  brew services start php70
+  brew services start php72
 
   echo $'\n'
   echo "Configuring Frontend tools: Ruby 2.2 using Rbenv"
