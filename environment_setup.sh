@@ -84,34 +84,7 @@ if confirmupdate "Would you like to install local development programs like PHPS
   sudo cp config/co.echo.httpdfwd.plist /Library/LaunchDaemons/
   sudo launchctl load -Fw /Library/LaunchDaemons/co.echo.httpdfwd.plist
 
-  echo $'\n'
-  echo "Installing alternate PHP versions (5.6, 7.1)"
-  echo $'\n'
-
-  brew install php@56
-  brew install php@70
-  brew install php@71
-
-  echo $'\n'
-  echo "Configuring PHP"
-  echo $'\n'
-
-  echo $'\n'
-  echo "Installing xdebug, redis, and mcrypt with pecl"
-  echo $'\n'
-  pecl install xdebug
-  pecl install redis
-  pecl install mcrypt
-
-  for VER in 5.6 7.1 7.2
-  do
-    $(brew --prefix gettext)/bin/envsubst < config/php-ts.ini > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini
-  done
-
-  echo $'\n'
-  echo "Starting PHP7 FPM process."
-  echo $'\n'
-  brew services start php72
+  source scripts/php.sh
 
   echo $'\n'
   echo "Configuring Frontend tools: Ruby 2.2 using Rbenv"
