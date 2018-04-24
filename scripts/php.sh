@@ -6,16 +6,19 @@ if brew list php; then
   echo $'\n'
 
   echo $'\n'
-  echo "Installing PECL extensions (xdebug, redis, and mcrypt) for each version of PHP"
+  echo "Installing PECL extensions (xdebug and redis) for each version of PHP"
   echo $'\n'
   brew unlink php@7.2
   for VER in 5.6 7.0 7.1 7.2
   do
     brew link --force php@$VER
     php -v
-    pecl install xdebug
+    if [ $VER == '5.6' ]
+      pecl install xdebug-2.5.5
+    else
+      pecl install xdebug
+    fi
     pecl install redis
-    pecl install mcrypt
     brew unlink php@$VER
   done
 
