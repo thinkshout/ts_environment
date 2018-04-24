@@ -97,9 +97,11 @@ if confirmupdate "Would you like to install local development programs like PHPS
   echo $'\n'
 
   echo $'\n'
-  echo "Installing xdebug with pecl"
+  echo "Installing xdebug, redis, and mcrypt with pecl"
   echo $'\n'
   pecl install xdebug
+  pecl install redis
+  pecl install mcrypt
 
   for VER in 5.6 7.1 7.2
   do
