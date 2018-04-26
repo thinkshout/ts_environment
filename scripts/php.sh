@@ -35,4 +35,6 @@ if brew list php; then
   echo "Starting PHP7 FPM process."
   echo $'\n'
   brew services start php
+
+  source scripts/cgr.sh
 fi
