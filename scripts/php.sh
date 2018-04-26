@@ -8,7 +8,7 @@ if brew list php; then
   echo $'\n'
   echo "Installing PECL extensions (xdebug) for each version of PHP"
   echo $'\n'
-  brew unlink php@7.2
+  brew unlink php
   for VER in 5.6 7.0 7.1 7.2
   do
     brew link --force php@$VER
@@ -21,7 +21,7 @@ if brew list php; then
     brew unlink php@$VER
   done
 
-  brew link php@7.2
+  brew link php
 
   echo $'\n'
   echo "Installing TS config for each version of PHP"
