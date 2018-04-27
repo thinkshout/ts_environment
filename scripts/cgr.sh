@@ -3,7 +3,7 @@
 export PATH=./vendor/bin:~/.composer/vendor/bin:$PATH
 
 composer global require consolidation/cgr
-cgr squizlabs/php_codesniffer
+cgr squizlabs/php_codesniffer "^2.9"
 cgr drupal/coder
 cgr wp-coding-standards/wpcs
 cgr pantheon-systems/terminus
