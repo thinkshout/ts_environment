@@ -85,3 +85,16 @@ $ ln -s ~/.composer/global/drupal/coder/vendor/drupal/coder/coder_sniffer/Drupal
 - in PHPstorm preferences, go to "Editor" -> "Inspections"
 - in the settings tree on the right, find "PHP" -> "PHP Code Sniffer validation" and select it
 - All the way on the right, find the "Code Sniffing Standards" drop-down and select "Drupal"
+
+### Tips
+## Make Drushing easier on Drupal 8 sites:
+Add this code:
+```<?php
+
+if (file_exists(getcwd() . '/web')) {
+  $options['root'] = getcwd() . '/web';
+}
+```
+to your `~/.drush/drushrc.php`
+
+You’ll be able to run drush commands from your project directory instead of needing to jump into `/web`. You already run composer and robo commands from your project directory, so now you can run all three from the same place!
