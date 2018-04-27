@@ -87,7 +87,7 @@ $ ln -s ~/.composer/global/drupal/coder/vendor/drupal/coder/coder_sniffer/Drupal
 - All the way on the right, find the "Code Sniffing Standards" drop-down and select "Drupal"
 
 ### Tips
-## Make Drushing easier on Drupal 8 sites:
+#### Make Drushing easier on Drupal 8 sites:
 Add this code:
 ```<?php
 
