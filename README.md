@@ -43,23 +43,16 @@ Caveats:
 
 This script installs php-code-sniffer, but configuration is not working as of September 2017. To work around this:
 
-1. Use brew to install a 3.x version of php-code-sniffer:
-
-$ brew upgrade php-code-sniffer
-
-2. Remove any existing version of drupal-coding-standards from homebrew:
+1. Remove any existing version of drupal-coding-standards from homebrew:
 
 $ brew uninstall drupal-coding-standards
 
-3. Install drupal coding standards with composer using "cgr"
-
-$ cgr "drupal/coder"
-
-Note that this will install coder in your home directory, at ~/.composer/global/drupal/coder/vendor/drupal/coder
+Note that coder is now installed via composer (cgr actually) in your home directory, at ~/.composer/global/drupal/coder/vendor/drupal/coder
 
 4. Find your config folder for PHP CS standards. It's called "installed_paths"
 
 $ phpcs --config-show
+
 <example output>
 Using config file: /usr/local/Cellar/php-code-sniffer/3.1.0/CodeSniffer.conf
 
