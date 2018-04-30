@@ -22,22 +22,24 @@ brew upgrade
 
 PHP - 5.6 to 7.0:
 ```
-brew services stop php56;brew services start php70
+brew services stop php@5.6; brew services start php@7.0
 ```
 
 PHP - 7.0 to 5.6:
 ```
-brew services stop php70;brew services start php56
+brew services stop php@7.0; brew services start php@5.6
 ```
 
 Switching CLI version of PHP:
 ```
-brew unlink php56;brew link php70
+brew unlink php@5.6; brew link php@7.0 --force
 ```
 
 Caveats:
 
--> After you set up, when you brew update, be very sure you know what Homebrew is telling you when it makes "helpful" suggestions.
+* Be careful when running `brew upgrade` - sometimes formulas can change, and your environment may change or break in subtle ways.
+* Be prepared to deal with `brew upgrade` fallout, and update only when necessary, or at a low-risk time.
+* Be very sure you know what Homebrew is telling you when it makes "helpful" suggestions.
 
 ### PHP Coding Standards
 
