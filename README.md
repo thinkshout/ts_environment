@@ -22,44 +22,39 @@ brew upgrade
 
 PHP - 5.6 to 7.0:
 ```
-brew services stop php56;brew services start php70
+brew services stop php@5.6; brew services start php@7.0
 ```
 
 PHP - 7.0 to 5.6:
 ```
-brew services stop php70;brew services start php56
+brew services stop php@7.0; brew services start php@5.6
 ```
 
 Switching CLI version of PHP:
 ```
-brew unlink php56;brew link php70
+brew unlink php@5.6; brew link php@7.0 --force
 ```
 
 Caveats:
 
--> After you set up, when you brew update, be very sure you know what Homebrew is telling you when it makes "helpful" suggestions.
+* Be careful when running `brew upgrade` - sometimes formulas can change, and your environment may change or break in subtle ways.
+* Be prepared to deal with `brew upgrade` fallout, and update only when necessary, or at a low-risk time.
+* Be very sure you know what Homebrew is telling you when it makes "helpful" suggestions.
 
 ### PHP Coding Standards
 
 This script installs php-code-sniffer, but configuration is not working as of September 2017. To work around this:
 
-1. Use brew to install a 3.x version of php-code-sniffer:
-
-$ brew upgrade php-code-sniffer
-
-2. Remove any existing version of drupal-coding-standards from homebrew:
+1. Remove any existing version of drupal-coding-standards from homebrew:
 
 $ brew uninstall drupal-coding-standards
 
-3. Install drupal coding standards with composer using "cgr"
-
-$ cgr "drupal/coder"
-
-Note that this will install coder in your home directory, at ~/.composer/global/drupal/coder/vendor/drupal/coder
+Note that coder is now installed via composer (cgr actually) in your home directory, at ~/.composer/global/drupal/coder/vendor/drupal/coder
 
 4. Find your config folder for PHP CS standards. It's called "installed_paths"
 
 $ phpcs --config-show
+
 <example output>
 Using config file: /usr/local/Cellar/php-code-sniffer/3.1.0/CodeSniffer.conf
 
