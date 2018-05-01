@@ -139,13 +139,6 @@ if confirmupdate "Would you like to install local development programs like PHPS
   fi
 
   echo $'\n'
-  echo "Installing global composer packages (prestissimo, cgr)"
-  echo $'\n'
-
-  composer global require -n "hirak/prestissimo:^0.3"
-  composer global require -n "consolidation/cgr"
-
-  echo $'\n'
   echo "Dev environment setup complete"
   echo $'\n'
 
