@@ -14,7 +14,7 @@ function sphp() {
   fi
 
   PHP_ON="php@$@"
-  brew link --force "$PHP_ON"
   brew services start "$PHP_ON"
+  brew link --force "$PHP_ON"
 }
 
