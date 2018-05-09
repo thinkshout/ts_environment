@@ -38,5 +38,5 @@ if brew list php; then
 
   source scripts/cgr.sh
 
-  cp config/ts.drushrc.php ~/.drush
+  cp -n config/drushrc.php ~/.drush
 fi
