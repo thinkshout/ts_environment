@@ -73,6 +73,8 @@ if confirmupdate "Would you like to install local development programs like PHPS
     curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
 
     echo "export PATH=./vendor/bin:~/.composer/vendor/bin:/usr/local/bin:/usr/local/sbin:$PATH" >> ~/.zshrc
+
+    cp config/ts.zsh ~/.oh-my-zsh/custom
   fi
 
   # Configure MariaDB by copying remote config file to local system.
