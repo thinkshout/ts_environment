@@ -37,4 +37,6 @@ if brew list php; then
   brew services start php
 
   source scripts/cgr.sh
+
+  cp -n config/drushrc.php ~/.drush
 fi
