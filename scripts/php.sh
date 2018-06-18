@@ -46,5 +46,6 @@ if brew list php; then
   brew link php
   brew services start php
 
-  cp -n config/drushrc.php ~/.drush
+  mkdir -pv ~/.drush
+  cp -n config/drushrc.php ~/.drush/drushrc.php
 fi
