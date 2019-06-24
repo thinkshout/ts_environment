@@ -1,21 +1,28 @@
 <?php
 
 // Determine if we're in ~/Sites.
-if (preg_match('#' . drush_server_home() . '/Sites/([^/]+)/?(web)?#', getcwd(), $path_matches)) {
+if (preg_match('#' . drush_server_home() . '/Sites/([^/]+)/?(web|docroot)?#', getcwd(), $path_matches)) {
   // Find the site name and web directory, if it exists.
-  list($match, $site, $web_in_cwd) = $path_matches;
-  $web_in_subdir = file_exists(getcwd() . '/web');
+  list($match, $site, $webdir) = $path_matches;
+
+  // If web dir is beneath cwd, get its name and set it as the drush root.
+  if (!$webdir) {
+    foreach (array('web', 'docroot') as $dirname) {
+      if (file_exists(getcwd() . "/$dirname")) {
+        $webdir = $dirname;
+        $options['root'] = getcwd() . "/$webdir";
+        break;
+      }
+    } 
+  }
   
   // Set uri for localhost.
-  if ($web_in_cwd || $web_in_subdir) {
-    $options['uri'] = 'https://web.' . $site . '.localhost';
+  if ($webdir) {
+    $options['uri'] = 'https://' . $webdir . '.' . $site . '.localhost';
   }
   else {
     $options['uri'] = 'https://' . $site . '.localhost';
   }
-  
-  // Set web root.
-  if ($web_in_subdir) {
-    $options['root'] = getcwd() . '/web';
-  }
 }
+
+ini_set('memory_limit', '1G');
