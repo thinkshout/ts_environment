@@ -20,19 +20,21 @@ brew upgrade
 
 ### Switching PHP versions
 
-PHP - 5.6 to 7.0:
+You can switch php version using the `sphp` command. Examples:
+
+PHP - 7.0:
 ```
-brew services stop php@5.6; brew services start php@7.0
+sphp 7.0
 ```
 
-PHP - 7.0 to 5.6:
+PHP - 5.6:
 ```
-brew services stop php@7.0; brew services start php@5.6
+sphp 5.6
 ```
 
-Switching CLI version of PHP:
+PHP to the latest version (the one supported by homebrew):
 ```
-brew unlink php@5.6; brew link php@7.0 --force
+sphp X.X # Where X.X is the current version of php.
 ```
 
 Caveats:
