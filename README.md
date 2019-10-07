@@ -22,14 +22,9 @@ brew upgrade
 
 You can switch php version using the `sphp` command. Examples:
 
-PHP - 7.0:
+PHP - 7.1:
 ```
-sphp 7.0
-```
-
-PHP - 5.6:
-```
-sphp 5.6
+sphp 7.1
 ```
 
 PHP to the latest version (the one supported by homebrew):

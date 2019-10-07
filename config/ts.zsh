@@ -3,8 +3,8 @@
 # - Stops current php, and starts specified version
 # - Depends on homebrew php
 #
-# Usage - switch to php@5.6:
-#  sphp 5.6
+# Usage - switch to php@7.1:
+#  sphp 7.1
 #
 function sphp() {
   PHP_OFF=$( brew services list | awk '$1~/php/ && $2~/started/ {print $1}' )
