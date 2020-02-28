@@ -93,17 +93,9 @@ if confirmupdate "Would you like to install local development programs like PHPS
   echo "Configuring Frontend tools: Ruby 2.2 using Rbenv"
   echo $'\n'
 
-  if [ -n "$ZSH_VERSION" ]; then
-    echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi'>> ~/.zshrc
-    source ~/.zshrc
-  elif [ -n "$BASH_VERSION" ]; then
-    echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi'>> ~/.bashrc
-    source ~/.bashrc
-  else
-     echo $'\n'
-     echo $'Failed to install Rbenv. Please rbenv init for your shell. Sorry.'
-     echo $'\n'
-  fi
+  echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi'>> ~/.zshrc
+  echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi'>> ~/.bashrc
+
   rbenv install 2.6.5
   rbenv global 2.6.5
 
