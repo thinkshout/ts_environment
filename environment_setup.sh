@@ -90,7 +90,7 @@ if confirmupdate "Would you like to install local development programs like PHPS
   source scripts/php.sh
 
   echo $'\n'
-  echo "Configuring Frontend tools: Ruby 2.2 using Rbenv"
+  echo "Configuring Frontend tools with Ruby and Rbenv"
   echo $'\n'
 
   echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi'>> ~/.zshrc
