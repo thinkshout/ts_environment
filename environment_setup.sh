@@ -104,8 +104,8 @@ if confirmupdate "Would you like to install local development programs like PHPS
      echo $'Failed to install Rbenv. Please rbenv init for your shell. Sorry.'
      echo $'\n'
   fi
-  rbenv install 2.2.2
-  rbenv global 2.2.2
+  rbenv install 2.6.5
+  rbenv global 2.6.5
 
   installed=`which bundler`
   if [ "$installed" == "" ] ; then
