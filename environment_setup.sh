@@ -62,6 +62,9 @@ if confirmupdate "Would you like to install local development programs like PHPS
 
   brew bundle --file=Brewfile-dev
 
+  # Set some standard git configuration
+  git config --global pull.rebase true
+
   export PATH=./vendor/bin:~/.composer/vendor/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
   installed=`ls ~/.oh-my-zsh | grep -i 'oh-my-zsh'`
