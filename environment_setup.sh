@@ -19,7 +19,7 @@ echo ""
 echo "Sets up the standard ThinkShout development environment."
 echo ""
 echo "There's no UNDO for this script, so please double check the prereqs now:"
-echo "- Required: OSX 10.10 Yosemite or higher"
+echo "- Required: OSX 10.15 Catalina or higher"
 echo "- Required: An active internet connection"
 echo ""
 
