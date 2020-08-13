@@ -60,7 +60,7 @@ This script no longer installs php-code-sniffer. Install and configure it using 
 `$ phpcs -i`
 
 ~~~bash
-The installed coding standards are MySource, PEAR, PSR1, PSR12, PSR2, Squiz, and Zend`
+The installed coding standards are MySource, PEAR, PSR1, PSR12, PSR2, Squiz, and Zend
 ~~~
 
 3. Create a local `Standards` folder to add symlinks to the Drupal and WP coding standards:
@@ -77,7 +77,7 @@ The installed coding standards are MySource, PEAR, PSR1, PSR12, PSR2, Squiz, and
 `$ phpcs -i`
 
 ~~~bash
-The installed coding standards are MySource, PEAR, PSR1, PSR12, PSR2, Squiz, Zend, Drupal and WordPress-Core`
+The installed coding standards are MySource, PEAR, PSR1, PSR12, PSR2, Squiz, Zend, Drupal and WordPress-Core
 ~~~
 
 6. Configure PHPstorm to use the correct version of Codesniffer:
