@@ -49,39 +49,44 @@ Caveats:
 
 ### PHP Coding Standards
 
-This script installs php-code-sniffer, but configuration is not working as of September 2017. To work around this:
+This script no longer installs php-code-sniffer. Install and configure it using the following:
 
-1. Remove any existing version of drupal-coding-standards from homebrew:
+1. install via homebrew:
 
-$ brew uninstall drupal-coding-standards
+`$ brew install php-code-sniffer`
 
-Note that coder is now installed via composer (cgr actually) in your home directory, at ~/.composer/global/drupal/coder/vendor/drupal/coder
+2. Verify that you see coding standards:
 
-4. Find your config folder for PHP CS standards. It's called "installed_paths"
+`$ phpcs -i`
 
-$ phpcs --config-show
+~~~bash
+The installed coding standards are MySource, PEAR, PSR1, PSR12, PSR2, Squiz, and Zend`
+~~~
 
-<example output>
-Using config file: /usr/local/Cellar/php-code-sniffer/3.1.0/CodeSniffer.conf
+3. Create a local `Standards` folder to add symlinks to the Drupal and WP coding standards:
 
-installed_paths: /usr/local/etc/php-code-sniffer/Standards
-</example output>
+`mkdir php-code-sniffer;mkdir php-code-sniffer/Standards;cd php-code-sniffer/Standards`
 
-5. Go to your Standards folder
+4. Create symlinks to your Composer-installed standards:
 
-$ cd /usr/local/etc/php-code-sniffer/Standards
+`$ ln -s ~/.composer/global/drupal/coder/vendor/drupal/coder/coder_sniffer/Drupal Drupal`
+`$ ln -s ~/.composer/global/wp-coding-standards/wpcs/vendor/wp-coding-standards/wpcs/WordPress-Core WordPress-Core`
 
-6. Create a symlink to your Composer-installed standards:
+5. Verify that you see coding the updated standards:
 
-$ ln -s ~/.composer/global/drupal/coder/vendor/drupal/coder/coder_sniffer/Drupal Drupal
+`$ phpcs -i`
 
-7. Configure PHPstorm to use the correct version of Codesniffer:
+~~~bash
+The installed coding standards are MySource, PEAR, PSR1, PSR12, PSR2, Squiz, Zend, Drupal and WordPress-Core`
+~~~
+
+6. Configure PHPstorm to use the correct version of Codesniffer:
 
 - open PHPstorm and go to the Preferences screen
 - go to "Languages & Frameworks" -> "PHP" -> "Code Sniffer"
 - click the "..." next to the configuration and validate
 
-8. Configure PHPstorm to use Codesniffer's Drupal Standards:
+7. Configure PHPstorm to use Codesniffer's Drupal Standards:
 
 - in PHPstorm preferences, go to "Editor" -> "Inspections"
 - in the settings tree on the right, find "PHP" -> "PHP Code Sniffer validation" and select it
