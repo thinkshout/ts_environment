@@ -53,30 +53,34 @@ This script no longer installs php-code-sniffer. Install and configure it using 
 
 1. install via homebrew:
 
-`brew install php-code-sniffer`
+~~~bash
+brew install php-code-sniffer
+~~~
 
 2. Verify that you see coding standards:
 
-`phpcs -i`
-
 ~~~bash
+phpcs -i
 The installed coding standards are MySource, PEAR, PSR1, PSR12, PSR2, Squiz, and Zend
 ~~~
 
 3. Create a local `Standards` folder to add symlinks to the Drupal and WP coding standards:
 
-`mkdir php-code-sniffer;mkdir php-code-sniffer/Standards;cd php-code-sniffer/Standards`
+~~~bash
+mkdir php-code-sniffer;mkdir php-code-sniffer/Standards;cd php-code-sniffer/Standards
+~~~
 
 4. Create symlinks to your Composer-installed standards:
 
-`ln -s ~/.composer/global/drupal/coder/vendor/drupal/coder/coder_sniffer/Drupal Drupal`
-`ln -s ~/.composer/global/wp-coding-standards/wpcs/vendor/wp-coding-standards/wpcs/WordPress-Core WordPress-Core`
+~~~bash
+ln -s ~/.composer/global/drupal/coder/vendor/drupal/coder/coder_sniffer/Drupal Drupal
+ln -s ~/.composer/global/wp-coding-standards/wpcs/vendor/wp-coding-standards/wpcs/WordPress-Core WordPress-Core
+~~~
 
 5. Verify that you see coding the updated standards:
 
-`phpcs -i`
-
 ~~~bash
+phpcs -i
 The installed coding standards are MySource, PEAR, PSR1, PSR12, PSR2, Squiz, Zend, Drupal and WordPress-Core
 ~~~
 
