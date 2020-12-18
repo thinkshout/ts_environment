@@ -3,12 +3,13 @@ TS Environment
 
 Sets you up with a server environment on a Mac for Drupal development. If you need examples of how to install common packages with Homebrew, checkout environment_setup.sh
 
-### Requirements:
-
- - Xcode command line tools: `xcode-select --install`
-
+### Getting Started:
 ```
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/thinkshout/ts_environment/master/environment_setup.sh)"
+cd ~
+xcode-select --install
+git clone git@github.com:thinkshout/ts_environment.git
+cd ts_environment
+./environment_setup.sh
 ```
 
 Once installed you can upgrade your packages to the current stable versions like so:
