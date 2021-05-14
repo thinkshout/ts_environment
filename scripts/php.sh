@@ -29,6 +29,7 @@ if brew list php; then
   done
 
   # Install cgr scripts under oldest php version for backwards compat
+  brew unlink php
   brew link --force php@7.2
 
   source scripts/cgr.sh
