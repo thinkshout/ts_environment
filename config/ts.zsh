@@ -18,3 +18,4 @@ function sphp() {
   brew link --force "$PHP_ON"
 }
 
+alias composer="COMPOSER_MEMORY_LIMIT=-1 composer"
