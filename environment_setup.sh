@@ -56,7 +56,7 @@ fi
 # Install everything in the Brewfile
 brew bundle --file=Brewfile
 
-if confirmupdate "Would you like to install local development programs like PHPStorm, Sequel Pro, PHP, MariaDB, etc?"; then
+if confirmupdate "Would you like to install local development programs like PHPStorm, Sequel Ace, PHP, MariaDB, etc?"; then
   echo $'\n'
   echo 'Installing local development environment...'
 
