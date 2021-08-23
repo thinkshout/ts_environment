@@ -11,7 +11,7 @@ if brew list php; then
 
   brew unlink php
 
-  for VER in 7.2 7.3 7.4 8.0
+  for VER in 7.3 7.4 8.0
   do
     brew link --force php@$VER
     php -v
@@ -23,18 +23,18 @@ if brew list php; then
   echo "Installing TS config for each version of PHP"
   echo $'\n'
 
-  for VER in 7.2 7.3 7.4 8.0
+  for VER in 7.3 7.4 8.0
   do
     $(brew --prefix gettext)/bin/envsubst < config/php-ts.ini > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini
   done
 
   # Install cgr scripts under oldest php version for backwards compat
   brew unlink php
-  brew link --force php@7.2
+  brew link --force php@7.3
 
   source scripts/cgr.sh
 
-  brew unlink php@7.2
+  brew unlink php@7.3
 
   echo $'\n'
   echo "Starting PHP."
