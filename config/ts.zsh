@@ -18,3 +18,12 @@ function sphp() {
   brew link --force "$PHP_ON"
 }
 
+# Switch composer
+# - Switches to the specified version of composer
+#
+# Usage - switch to composer 2
+#  sc 2
+#
+function sc() {
+  composer self-update --$@
+}
