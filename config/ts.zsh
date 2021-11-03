@@ -25,5 +25,5 @@ function sphp() {
 #  sc 2
 #
 function sc() {
-  composer self-update --$@
+  \composer self-update --$@
 }
