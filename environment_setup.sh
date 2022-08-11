@@ -42,7 +42,7 @@ fi
 
 echo "Downloading Homebrew standard bundle."
 if [ ! -d ~/ts_environment ] ; then
-  git clone https://github.com/thinkshout/ts_environment.git ~/ts_environment
+  git clone -b contractors https://github.com/thinkshout/ts_environment.git ~/ts_environment
 fi
 
 cd ~/ts_environment; git checkout master && git pull
