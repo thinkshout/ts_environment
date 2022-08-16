@@ -1,4 +1,4 @@
-#!/bin/bash
+
 
 #set -e
 
@@ -35,7 +35,7 @@ if [ "$brew_installed" == "" ] ; then
   echo $'\n'
   echo "Installing Homebrew."
   echo $'\n'
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   brew update
   brew doctor
 fi
@@ -45,7 +45,7 @@ if [ ! -d ~/ts_environment ] ; then
   git clone https://github.com/thinkshout/ts_environment.git ~/ts_environment
 fi
 
-cd ~/ts_environment; git checkout master && git pull
+cd ~/ts_environment; git checkout main && git pull
 
 if confirmupdate "Would you like to proceed?"; then
   echo "Starting setup..."
@@ -73,7 +73,7 @@ if confirmupdate "Would you like to install local development programs like PHPS
     echo ' Installing Oh My ZSH'
     echo $'\n'
 
-    curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
     echo "export PATH=./vendor/bin:~/.composer/vendor/bin:/usr/local/bin:/usr/local/sbin:$PATH" >> ~/.zshrc
 
