@@ -42,10 +42,10 @@ fi
 
 echo "Downloading Homebrew standard bundle."
 if [ ! -d ~/ts_environment ] ; then
-  git clone https://github.com/thinkshout/ts_environment.git ~/ts_environment
+  git clone -b contractors https://github.com/thinkshout/ts_environment.git ~/ts_environment
 fi
 
-cd ~/ts_environment; git checkout master && git pull
+cd ~/ts_environment; git checkout contractors && git pull
 
 if confirmupdate "Would you like to proceed?"; then
   echo "Starting setup..."
@@ -53,33 +53,33 @@ else
   exit
 fi
 
-# Install everything in the Brewfile
-brew bundle --file=Brewfile
+# Install everything in the *minimal* Brewfile
+brew bundle --file=Brewfile-minimal
 
-if confirmupdate "Would you like to install local development programs like PHPStorm, Sequel Ace, PHP, MariaDB, etc?"; then
+if confirmupdate "Would you like to install the minimal local development--nginx, MariaDB, dnsmasq, etc?"; then
   echo $'\n'
   echo 'Installing local development environment...'
 
-  brew bundle --file=Brewfile-dev
+  brew bundle --file=Brewfile-dev-minimal
 
   # Set some standard git configuration
   git config --global pull.rebase true
 
   export PATH=./vendor/bin:~/.composer/vendor/bin:/usr/local/bin:/usr/local/sbin:$PATH
 
-  installed=`ls ~/.oh-my-zsh | grep -i 'oh-my-zsh'`
-  if [ "$installed" == "" ] ; then
-    echo $'\n'
-    echo ' Installing Oh My ZSH'
-    echo $'\n'
-
-    curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-
-    echo "export PATH=./vendor/bin:~/.composer/vendor/bin:/usr/local/bin:/usr/local/sbin:$PATH" >> ~/.zshrc
-
-    mkdir -pv ~/.oh-my-zsh/custom
-    cp config/ts.zsh ~/.oh-my-zsh/custom/ts.zsh
-  fi
+#  installed=`ls ~/.oh-my-zsh | grep -i 'oh-my-zsh'`
+#  if [ "$installed" == "" ] ; then
+#    echo $'\n'
+#    echo ' Installing Oh My ZSH'
+#    echo $'\n'
+#
+#    curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+#
+#    echo "export PATH=./vendor/bin:~/.composer/vendor/bin:/usr/local/bin:/usr/local/sbin:$PATH" >> ~/.zshrc
+#
+#    mkdir -pv ~/.oh-my-zsh/custom
+#    cp config/ts.zsh ~/.oh-my-zsh/custom/ts.zsh
+#  fi
 
   # Configure MariaDB by copying remote config file to local system.
   cp config/ts.cnf $(brew --prefix)/etc/my.cnf.d/ts.cnf
