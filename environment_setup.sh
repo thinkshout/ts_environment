@@ -35,7 +35,7 @@ if [ "$brew_installed" == "" ] ; then
   echo $'\n'
   echo "Installing Homebrew."
   echo $'\n'
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   brew update
   brew doctor
 fi
