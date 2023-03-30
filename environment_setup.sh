@@ -45,7 +45,7 @@ if [ ! -d ~/ts_environment ] ; then
   git clone https://github.com/thinkshout/ts_environment.git ~/ts_environment
 fi
 
-cd ~/ts_environment; git checkout master && git pull
+cd ~/ts_environment; git checkout main && git pull
 
 if confirmupdate "Would you like to proceed?"; then
   echo "Starting setup..."
