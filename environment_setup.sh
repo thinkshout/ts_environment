@@ -1,4 +1,4 @@
-#!/bin/bash
+
 
 #set -e
 
@@ -73,7 +73,7 @@ if confirmupdate "Would you like to install local development programs like PHPS
     echo ' Installing Oh My ZSH'
     echo $'\n'
 
-    curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
     echo "export PATH=./vendor/bin:~/.composer/vendor/bin:/usr/local/bin:/usr/local/sbin:$PATH" >> ~/.zshrc
 
