@@ -40,6 +40,13 @@ if [ "$brew_installed" == "" ] ; then
   brew doctor
 fi
 
+# Check for non intel mac
+is_m1=`which brew`
+ if [ "$is_intel" == "/opt/homebrew/bin/brew" ] ; then
+   echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+   eval "$(/opt/homebrew/bin/brew shellenv)"
+ fi
+
 echo "Downloading Homebrew standard bundle."
 if [ ! -d ~/ts_environment ] ; then
   git clone https://github.com/thinkshout/ts_environment.git ~/ts_environment
