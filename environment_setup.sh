@@ -36,16 +36,15 @@ if [ "$brew_installed" == "" ] ; then
   echo "Installing Homebrew."
   echo $'\n'
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  # Check for non intel mac
+  is_m1=`which brew`
+  if [ "$is_intel" == "/opt/homebrew/bin/brew" ] ; then
+   echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+   eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
   brew update
   brew doctor
 fi
-
-# Check for non intel mac
-is_m1=`which brew`
- if [ "$is_intel" == "/opt/homebrew/bin/brew" ] ; then
-   echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-   eval "$(/opt/homebrew/bin/brew shellenv)"
- fi
 
 echo "Downloading Homebrew standard bundle."
 if [ ! -d ~/ts_environment ] ; then
