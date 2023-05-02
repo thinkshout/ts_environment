@@ -86,7 +86,7 @@ if confirmupdate "Would you like to install local development programs like PHPS
     cp config/ts.zsh ~/.oh-my-zsh/custom/ts.zsh
     
     is_m1=`which brew`
-    if [ "$is_intel" == "/opt/homebrew/bin/brew" ] ; then
+    if [ "$is_m1" == "/opt/homebrew/bin/brew" ] ; then
       echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
     fi
   fi
