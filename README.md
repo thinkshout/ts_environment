@@ -1,7 +1,7 @@
 TS Environment
 ====================
 
-Current walkthrough scripts: [New Laptop Setup - Non-Developer](https://docs.google.com/document/d/1KtqD0vWGBFujeDt6ZiIDnKgFjzxqzLs6pFerTl7AAEk/edit?usp=sharing) and New Laptop Setup - Developer
+Current walkthrough scripts: [New Laptop Setup - Non-Developer](https://docs.google.com/document/d/1KtqD0vWGBFujeDt6ZiIDnKgFjzxqzLs6pFerTl7AAEk/edit?usp=sharing) and [New Laptop Setup - Developer](https://docs.google.com/document/d/1lGJ3_BRJjQkNxkD9RCjdaPBvBIw9RhffJu2PkgJ79ws/edit?usp=sharing)
 
 Sets you up with a server environment on a Mac for Drupal development. If you need examples of how to install common packages with Homebrew, checkout environment_setup.sh
 
