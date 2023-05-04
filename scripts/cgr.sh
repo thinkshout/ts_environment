@@ -2,7 +2,6 @@
 
 export PATH=./vendor/bin:~/.composer/vendor/bin:$PATH
 
-composer global require hirak/prestissimo
 composer global require consolidation/cgr
 cgr squizlabs/php_codesniffer "^2.9"
 cgr drupal/coder
