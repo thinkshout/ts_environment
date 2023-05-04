@@ -36,11 +36,14 @@ if [ "$brew_installed" == "" ] ; then
   echo "Installing Homebrew."
   echo $'\n'
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
   # Check for non intel mac
   is_m1=`which brew`
   if [ "$is_m1" == "/opt/homebrew/bin/brew" ] ; then
-   eval "$(/opt/homebrew/bin/brew shellenv)"
+    (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> ~/.zprofile
+    eval "$(/opt/homebrew/bin/brew shellenv)"
   fi
+
   brew update
   brew doctor
 fi
@@ -84,12 +87,7 @@ if confirmupdate "Would you like to install local development programs like PHPS
 
     mkdir -pv ~/.oh-my-zsh/custom
     cp config/ts.zsh ~/.oh-my-zsh/custom/ts.zsh
-    
-    is_m1=`which brew`
-    if [ "$is_m1" == "/opt/homebrew/bin/brew" ] ; then
-      (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> ~/.zprofile
-      eval "$(/opt/homebrew/bin/brew shellenv)"
-    fi
+
   fi
 
   # Configure MariaDB by copying remote config file to local system.
