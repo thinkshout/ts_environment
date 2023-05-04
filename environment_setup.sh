@@ -87,7 +87,8 @@ if confirmupdate "Would you like to install local development programs like PHPS
     
     is_m1=`which brew`
     if [ "$is_m1" == "/opt/homebrew/bin/brew" ] ; then
-      echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+      (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> ~/.zprofile
+      eval "$(/opt/homebrew/bin/brew shellenv)"
     fi
   fi
 
