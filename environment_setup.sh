@@ -39,7 +39,7 @@ if [ "$brew_installed" == "" ] ; then
 
   # Check for non intel mac
   is_m1=`which brew`
-  if [ "$is_m1" == "/opt/homebrew/bin/brew" ] ; then
+  if [ "$is_m1" != "/opt/homebrew/bin/brew" ] ; then
     (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> ~/.zprofile
     eval "$(/opt/homebrew/bin/brew shellenv)"
   fi
