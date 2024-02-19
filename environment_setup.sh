@@ -73,7 +73,7 @@ if confirmupdate "Would you like to install local development programs like PHPS
   # Set some standard git configuration
   git config --global pull.rebase true
 
-  export PATH=./vendor/bin:~/.composer/vendor/bin:$PATH
+  export PATH=./vendor/bin:~/.composer/vendor/bin:/opt/homebrew/bin:$PATH
 
   installed=`ls ~/.oh-my-zsh | grep -i 'oh-my-zsh'`
   if [ "$installed" == "" ] ; then
@@ -83,7 +83,7 @@ if confirmupdate "Would you like to install local development programs like PHPS
 
     curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
 
-    echo "export PATH=./vendor/bin:~/.composer/vendor/bin:$PATH" >> ~/.zshrc
+    echo "export PATH=./vendor/bin:~/.composer/vendor/bin:/opt/homebrew/bin:$PATH" >> ~/.zshrc
 
     mkdir -pv ~/.oh-my-zsh/custom
     cp config/ts.zsh ~/.oh-my-zsh/custom/ts.zsh
