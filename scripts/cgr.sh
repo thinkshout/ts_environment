@@ -6,7 +6,6 @@ composer global require consolidation/cgr
 cgr squizlabs/php_codesniffer "^2.9"
 cgr drupal/coder
 cgr wp-coding-standards/wpcs
-cgr pantheon-systems/terminus
 cgr consolidation/Robo
 cgr drush/drush "^8.0"
 cgr drupal/console
