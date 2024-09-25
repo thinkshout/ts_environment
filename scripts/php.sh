@@ -23,7 +23,7 @@ if brew list php; then
   echo "Installing TS config for each version of PHP"
   echo $'\n'
 
-  for VER in 7.4 8.0 8.1
+  for VER in 7.4 8.0 8.1 8.2 8.3
   do
     $(brew --prefix gettext)/bin/envsubst < config/php-ts.ini > $(brew --prefix)/etc/php/$VER/conf.d/php-ts.ini
   done
