@@ -8,7 +8,6 @@ cgr drupal/coder
 cgr wp-coding-standards/wpcs
 cgr consolidation/Robo
 cgr drush/drush "^8.0"
-cgr drupal/console
 
 phpcs --config-set installed_paths ~/.composer/global/drupal/coder/vendor/drupal/coder/coder_sniffer
 
