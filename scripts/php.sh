@@ -11,7 +11,7 @@ if brew list php; then
 
   brew unlink php
 
-  for VER in 7.4 8.0 8.1
+  for VER in 7.4 8.1 8.2 8.3
   do
     brew link --force php@$VER
     php -v
