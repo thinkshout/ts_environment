@@ -25,7 +25,7 @@ brew upgrade
 
 After installing development tools, you'll need to set the password for MariaDB:
 ```
-sudo mysql_secure_installation
+sudo mariadb-secure-installation
 ```
 Set login to root and password to root and answer yes to all the questions in the wizard.
 
