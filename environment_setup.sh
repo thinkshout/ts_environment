@@ -100,51 +100,6 @@ if confirmupdate "Would you like to install local development programs like PHPS
   sudo launchctl load -Fw /Library/LaunchDaemons/co.echo.httpdfwd.plist
 
   source scripts/php.sh
-
-  echo $'\n'
-  echo "Configuring Frontend tools with Ruby and Rbenv"
-  echo $'\n'
-
-  echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi'>> ~/.zshrc
-  echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi'>> ~/.bashrc
-
-  rbenv install 2.6.5
-  rbenv global 2.6.5
-
-  installed=`which bundler`
-  if [ "$installed" == "" ] ; then
-    echo $'\n'
-    echo "Installing Bundler"
-    echo $'\n'
-
-    ~/.rbenv/shims/gem install bundler
-  fi
-
-  installed=`which grunt`
-  if [ "$installed" == "" ] ; then
-    echo $'\n'
-    echo 'Installing Grunt'
-    echo $'\n'
-    npm install -g grunt-cli
-  fi
-
-  installed=`which gulp`
-  if [ "$installed" == "" ] ; then
-    echo $'\n'
-    echo 'Installing gulp'
-    echo $'\n'
-    npm install --global gulp-cli
-  fi
-
-  installed=`which compass`
-  if [ "$installed" == "" ] ; then
-    echo $'\n'
-    echo 'Installing Compass'
-    echo $'\n'
-
-    ~/.rbenv/shims/gem install compass
-  fi
-
   echo $'\n'
   echo "Dev environment setup complete"
   echo $'\n'
