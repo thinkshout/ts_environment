@@ -1,6 +1,5 @@
 cask_args appdir: '/Applications'
 
-tap 'homebrew/services'
 tap 'shivammathur/php'
 
 brew 'colordiff'
@@ -34,7 +33,6 @@ brew 'xz'
 brew 'zsh'
 brew 'zsh-completions'
 
-cask 'atom'
 cask 'macdown'
 cask 'phpstorm'
 cask 'sequel-ace'
