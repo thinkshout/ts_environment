@@ -3,11 +3,11 @@
 export PATH=./vendor/bin:~/.composer/vendor/bin:$PATH
 
 composer global require consolidation/cgr
-cgr squizlabs/php_codesniffer "^2.9"
-cgr drupal/coder
-cgr wp-coding-standards/wpcs
-cgr consolidation/Robo
-cgr drush/drush "^8.0"
+cgr -W squizlabs/php_codesniffer
+cgr -W drupal/coder
+cgr -W wp-coding-standards/wpcs
+cgr -W consolidation/Robo
+cgr -W drush/drush
 
 phpcs --config-set installed_paths ~/.composer/global/drupal/coder/vendor/drupal/coder/coder_sniffer
 
