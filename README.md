@@ -35,6 +35,8 @@ If that's unsuccessful, you can try from within mariadb:
 
 This trick is courtesy of a [gist]([url](https://gist.github.com/nickcernis/1c2a1c98a0660d4798d55b1999d52b4c)) which suggest running mariadb using `sudo` but that doesn't seem to be necessary.
 
+If you continue to have issues connecting to mariadb, see [this library article]([url](https://library.thinkshoutlabs.com/articles/broken-local-mariadbmysql)).
+
 ### Switching PHP versions
 
 You can switch php version using the `sphp` command. Examples:
