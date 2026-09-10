@@ -29,6 +29,11 @@ sudo mariadb-secure-installation
 ```
 Set login to root and password to root and answer yes to all the questions in the wizard.
 
+If that's unsuccessful, you can try from within mariadb:
+`$ mariadb` then:
+`ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';`
+
+This trick is courtesy of a [gist]([url](https://gist.github.com/nickcernis/1c2a1c98a0660d4798d55b1999d52b4c)) which suggest running mariadb using `sudo` but that doesn't seem to be necessary.
 
 ### Switching PHP versions
 
